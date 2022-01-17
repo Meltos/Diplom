@@ -1,0 +1,83 @@
+Spoiler: Level 1
+Wears no helmet.
+Price: 15 coins
+Damage: 1.0
+HP: 40
+Speed: 1.6 (Normal)
+EXP Reward: 7
+
+Spoiler: Level 2
+Wears a leather helmet.
+Price: 18 coins
+Damage: 1.0
+HP: 56
+Speed: 1.6 (Normal)
+EXP Reward: 9
+
+Spoiler: Level 3
+Wears a chain helmet.
+Price: 22 coins
+Damage: 1.0
+HP: 78
+Speed: 1.6 (Normal)
+EXP Reward: 10
+
+Spoiler: Level 4
+Wears an iron helmet.
+Price: 26 coins
+Damage: 1.5
+HP: 110
+Speed: 1.6 (Normal)
+EXP Reward: 13
+
+Spoiler: Level 5
+Wears a diamond helmet.
+Price: 31 coins
+Damage: 2.0
+HP: 154
+Speed: 1.6 (Normal)
+EXP Reward: 30
+
+Spoiler: The Spider
+The low levels of the spider are pretty weak, but spiders can be very useful if the enemy has no mage or ice towers.
+
+Spoiler: Level 1
+Looks like a normal spider.
+Price: 25 coins
+Damage: 1.0
+HP: 80
+Speed: 1.6 (Normal)
+EXP Reward: 30
+
+Spoiler: Level 2
+Looks like a normal spider.
+Price: 30 coins
+Damage: 1.0
+HP: 112
+Speed: 2 (Fast)
+EXP Reward: 32
+
+Spoiler: Level 3
+Looks like a cave spider.
+Price: 36 coins
+Damage: 1.5
+HP: 157
+Speed: 2.5 (Fast)
+EXP Reward: 36
+
+Spoiler: Level 4
+Invisible.
+Price: 43 coins
+Damage: 1.0
+HP: 222
+Speed: 2.5 (Fast)
+EXP Reward: 38
+This spider is invisible to all towers except the ice and the mage tower.
+
+Spoiler: Level 5
+Invisible.
+Price: 52 coins
+Damage: 1.5
+HP: 307
+Speed: 2.0 (Fast)
+EXP Reward: 44

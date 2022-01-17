@@ -1,0 +1,11 @@
+Башня лучников: 1 стрела - 5 урона
+Ледяная башня:
+Mage Башня: II - 5, III - 5
+Артиллерийская башня:
+Sorcetet Tower:
+Башня Зевса: I - 15
+Quake Tower:
+Poison Tower:
+Turret Tower:
+Leach Tower:
+Necromancer Tower: I - 15, II - 25, III - 25

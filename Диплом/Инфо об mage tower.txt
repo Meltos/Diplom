@@ -1,0 +1,24 @@
+Spoiler: Level 1
+Price: 350 coins
+Rate: 5 seconds
+Range: 10 blocks
+Type of damage: Fire
+
+Spoiler: Level 2
+Price: 70 coins
+Rate: 4 seconds
+Range: 12 blocks
+Type of damage: Fire
+
+Spoiler: Level 3
+Price: 90 coins
+Rate: 3 seconds
+Range: 13 blocks
+Type of damage: Fire
+
+Spoiler: Level 4
+Shoots fireballs.
+Price: 580 coins
+Rate: 1 second
+Range: 15 blocks
+Type of damage: Fire and fireballs
