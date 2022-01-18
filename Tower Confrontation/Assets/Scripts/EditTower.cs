@@ -13,7 +13,14 @@ public class EditTower : MonoBehaviour
 
     void Update()
     {
-        GetComponent<RectTransform>().position = Camera.main.WorldToScreenPoint(TowerObj.transform.position + Offset);
+        if (TowerObj == null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            GetComponent<RectTransform>().position = Camera.main.WorldToScreenPoint(TowerObj.transform.position + Offset);
+        }
     }
 
     #endregion

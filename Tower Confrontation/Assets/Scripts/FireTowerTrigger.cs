@@ -13,17 +13,16 @@ public class FireTowerTrigger : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Enemy") && Tower.IsPlaced)
+        if (other.CompareTag("Enemy") && Tower.IsPlaced && !other.gameObject.GetComponent<Enemy>().IsFire && other.gameObject.GetComponent<Enemy>().HP > 0)
         {
-            other.gameObject.GetComponent<Enemy>().IsFire = true;
-            other.gameObject.GetComponent<Enemy>().TimeFire = 5;
+            other.gameObject.GetComponent<Enemy>().BurnDamage = Tower.Damage;
             BurnedEnemies.Add(other.gameObject);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Enemy") && Tower.IsPlaced)
+        if (other.CompareTag("Enemy") && Tower.IsPlaced && BurnedEnemies.Contains(other.gameObject))
         {
             BurnedEnemies.Remove(other.gameObject);
         }
@@ -41,10 +40,15 @@ public class FireTowerTrigger : MonoBehaviour
 
     #region CALLBACKS
 
+    /// <summary>
+    ///  Накладывание эффекта поджога.
+    /// </summary>
+
     IEnumerator Fire()
     {
         _isShoot = true;
         yield return new WaitForSeconds(Tower.ShootDelay);
+        List<GameObject> nullEnemies = new List<GameObject>();
         foreach(var burnedEnemy in BurnedEnemies)
         {
             if (burnedEnemy != null)
@@ -52,6 +56,14 @@ public class FireTowerTrigger : MonoBehaviour
                 burnedEnemy.GetComponent<Enemy>().IsFire = true;
                 burnedEnemy.GetComponent<Enemy>().TimeFire = 5;
             }
+            else
+            {
+                nullEnemies.Add(burnedEnemy);
+            }
+        }
+        foreach(var nullEnemy in nullEnemies)
+        {
+            BurnedEnemies.Remove(nullEnemy);
         }
         _isShoot = false;
     }

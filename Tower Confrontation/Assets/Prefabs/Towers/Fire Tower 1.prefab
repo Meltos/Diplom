@@ -267,7 +267,7 @@ GameObject:
   - component: {fileID: 2394092723185304640}
   m_Layer: 0
   m_Name: Fire Tower 1
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -309,7 +309,8 @@ MonoBehaviour:
   target: {fileID: 0}
   ShootDelay: 5
   IsPlaced: 0
-  NextLevelTower: {fileID: 0}
+  NextLevelTower: {fileID: 2283780030069498494, guid: e0ca6d2e76abd5d4ea88ed4fcaf8bc3e,
+    type: 3}
   TowerPlace: {fileID: 0}
   Offset: {x: 0, y: 1, z: 0}
   Type: 3

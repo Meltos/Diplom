@@ -69,15 +69,18 @@
     <Compile Include="Assets\Scripts\EnemyHPScript.cs" />
     <Compile Include="Assets\Scripts\SendWarriors.cs" />
     <Compile Include="Assets\Scripts\UpgradeWarriors.cs" />
+    <Compile Include="Assets\Scripts\TowerType.cs" />
     <Compile Include="Assets\Scripts\LightningTower.cs" />
+    <Compile Include="Assets\Scripts\FireTowerTrigger.cs" />
     <Compile Include="Assets\Scripts\OpenWarrior.cs" />
     <Compile Include="Assets\Scripts\TowerTrigger.cs" />
     <Compile Include="Assets\Scripts\Enemy.cs" />
     <Compile Include="Assets\Scripts\Tower.cs" />
     <Compile Include="Assets\Scripts\CameraControl.cs" />
     <Compile Include="Assets\Scripts\IceTowerTrigger.cs" />
-    <Compile Include="Assets\Scripts\TowerType.cs" />
-    <Compile Include="Assets\Scripts\FireTowerTrigger.cs" />
+    <Compile Include="Assets\Scripts\GenerateStartTower.cs" />
+    <Compile Include="Assets\Scripts\SceneSettings.cs" />
+    <Compile Include="Assets\Scripts\CastleHPScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

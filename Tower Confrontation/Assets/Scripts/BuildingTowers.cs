@@ -7,6 +7,8 @@ public class BuildingTowers : MonoBehaviour
     [SerializeField] private Money _money;
     [SerializeField] private GameObject _editTower;
     [SerializeField] private GameObject _canvas;
+    [SerializeField] private List<GameObject> _menus;
+    [SerializeField] private List<GameObject> _panels;
 
     private Tower _flyingBuilding;
     private Camera _mainCamera;
@@ -18,6 +20,7 @@ public class BuildingTowers : MonoBehaviour
     void Awake()
     {
         _mainCamera = Camera.main;
+        Time.timeScale = 1;
     }
 
     #endregion
@@ -28,15 +31,36 @@ public class BuildingTowers : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape) && _flyingBuilding != null)
         {
-            Destroy(_flyingBuilding.gameObject);
-            _flyingBuilding = null;
-            _lastTower = null;
+            CancelBuilding();
         }
         else if (_upgradeYet != null && Input.GetKeyDown(KeyCode.Escape))
         {
-            _upgradeYet.GetComponent<EditTower>().TowerObj.transform.GetChild(2).gameObject.SetActive(false);
-            Destroy(_upgradeYet.gameObject);
-            _upgradeYet = null;
+            CancelUpgrade();
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            bool check = false;
+            foreach (var panel in _panels)
+            {
+                if (panel.activeSelf)
+                    check = true;
+            }
+            if (!check)
+            {
+                foreach (var menu in _menus)
+                {
+                    if (menu.activeSelf)
+                    {
+                        menu.SetActive(false);
+                        Time.timeScale = 1;
+                    }
+                    else
+                    {
+                        menu.SetActive(true);
+                        Time.timeScale = 0;
+                    }
+                }
+            }
         }
         if (_flyingBuilding != null)
         {
@@ -192,14 +216,6 @@ public class BuildingTowers : MonoBehaviour
         newTowerObject.GetComponent<Tower>().TowerPlace = upgrade.TowerObj.GetComponent<Tower>().TowerPlace;
         newTowerObject.GetComponent<Tower>().IsPlaced = true;
         newTowerObject.GetComponent<Tower>().SetNormal();
-        if (newTowerObject.GetComponent<Tower>().Type == TowerType.IceTower)
-        {
-            newTowerObject.transform.GetChild(1).GetComponent<IceTowerTrigger>().FreezesEnemy.AddRange(upgrade.TowerObj.transform.GetChild(1).GetComponent<IceTowerTrigger>().FreezesEnemy);
-            foreach (var freezeEnemy in newTowerObject.transform.GetChild(1).GetComponent<IceTowerTrigger>().FreezesEnemy)
-            {
-                freezeEnemy.GetComponent<MoveToWayPoints>().Speed = freezeEnemy.GetComponent<MoveToWayPoints>().MaxSpeed;
-            }
-        }
         upgrade.Money.CoinMinus(newTower.Cost);
         Destroy(upgrade.TowerObj.gameObject);
         Destroy(upgrade.gameObject);
@@ -212,17 +228,28 @@ public class BuildingTowers : MonoBehaviour
     {
         remove.Money.CoinPlus(remove.TowerObj.GetComponent<Tower>().Cost / 2);
         remove.TowerObj.GetComponent<Tower>().TowerPlace.occupied = false;
-        if (remove.TowerObj.GetComponent<Tower>().Type == TowerType.IceTower)
-        {
-            remove.TowerObj.GetComponent<Tower>().transform.GetChild(1).GetComponent<IceTowerTrigger>().IsDestroy = true;
-            Destroy(remove.TowerObj.transform.GetChild(0).gameObject);
-            remove.TowerObj.GetComponent<Tower>().transform.GetChild(1).GetComponent<IceTowerTrigger>().DestroyParent();
-        }
-        else
-        {
-            Destroy(remove.TowerObj.gameObject);
-        }
+        Destroy(remove.TowerObj.gameObject);
         Destroy(remove.gameObject);
+    }
+
+    public void CancelBuilding()
+    {
+        if (_flyingBuilding != null)
+        {
+            Destroy(_flyingBuilding.gameObject);
+            _flyingBuilding = null;
+            _lastTower = null;
+        }
+    }
+
+    public void CancelUpgrade()
+    {
+        if (_upgradeYet != null)
+        {
+            _upgradeYet.GetComponent<EditTower>().TowerObj.transform.GetChild(2).gameObject.SetActive(false);
+            Destroy(_upgradeYet.gameObject);
+            _upgradeYet = null;
+        }
     }
 
     #endregion

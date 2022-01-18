@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class CastleHP : MonoBehaviour
 {
     public float HP;
+    public float MaxHP;
 
     #region BODY
 

@@ -157,9 +157,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _freezePower: 0.3
+  _isFreezeDamage: 1
   FreezesEnemy: []
   Tower: {fileID: 5460088746852805656}
-  IsDestroy: 0
 --- !u!136 &8722605115575493002
 CapsuleCollider:
   m_ObjectHideFlags: 0
