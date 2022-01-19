@@ -106,7 +106,8 @@ public class Enemy : MonoBehaviour
         TimeFire--;
         if (TimeFire == 0)
             IsFire = false;
-        Hp.GetComponent<EnemyHPScript>().Damage(BurnDamage);
+        if (HP > 0)
+            Hp.GetComponent<EnemyHPScript>().Damage(BurnDamage);
         _isBurn = false;
     }
 

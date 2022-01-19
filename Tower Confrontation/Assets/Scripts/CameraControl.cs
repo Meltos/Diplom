@@ -73,7 +73,7 @@ public class CameraControl : MonoBehaviour
             // на абсолютный вектор "вперед" или "назад"[с множителем от соответствующего шевеления колесом мышки]
             // и прибавляем результат к положению камеры
             camTr.transform.position += (Vector3)(camTr.transform.rotation * (camZ > 0 ? Vector3.forward * camZ : Vector3.back * (-camZ)));
-            if (camTr.transform.position.y <= 2 || camTr.transform.position.y >= 10 || camTr.position.x >= 5 + (ypos+1) * shag || camTr.position.x <= -17 + (ypos - 1) * shag || camTr.position.z >= 12 + (ypos+1) * shag || camTr.position.z <= -14 + (ypos-1) * shag)
+            if (camTr.transform.position.y <= 1 || camTr.transform.position.y >= 10 || camTr.position.x >= 5 + (ypos+1) * shag || camTr.position.x <= -17 + (ypos - 1) * shag || camTr.position.z >= 12 + (ypos+1) * shag || camTr.position.z <= -14 + (ypos-1) * shag)
             {
                 camTr.position = new Vector3(oldX, oldY, oldZ);
                 ypos = oldY;

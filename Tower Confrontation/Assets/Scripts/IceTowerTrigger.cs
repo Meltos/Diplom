@@ -25,7 +25,7 @@ public class IceTowerTrigger : MonoBehaviour
         }
         else if (other.CompareTag("Enemy") && !FreezesEnemy.Contains(other.gameObject) && Tower.IsPlaced && other.gameObject.GetComponent<Enemy>().HP > 0)
         {
-            if (Tower.NextLevelTower == null)
+            if (Tower.NextLevelTower == null && other.GetComponent<Enemy>().IceTower.NextLevelTower != null)
             {
                 other.GetComponent<Enemy>().IceTower.gameObject.transform.GetChild(1).gameObject.GetComponent<IceTowerTrigger>().FreezesEnemy.Remove(other.gameObject);
                 other.GetComponent<Enemy>().IceTower = Tower;

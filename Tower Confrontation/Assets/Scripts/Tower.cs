@@ -17,6 +17,7 @@ public class Tower : MonoBehaviour
     public TowerPlaces TowerPlace;
     public Vector3 Offset;
     public TowerType Type;
+    public bool IsBot;
 
     private bool _isShoot;
 

@@ -5,17 +5,12 @@ using UnityEngine.UI;
 
 public class SendWarriors : MonoBehaviour
 {
-    [SerializeField] private GameObject _currency;
     [SerializeField] private Dictionary<string, GameObject> _activeWarriors = new Dictionary<string, GameObject>();
     [SerializeField] private int _sendDelay;
     [SerializeField] private float _enemyInterval;
     [SerializeField] private float _startTime;
-    [SerializeField] private Transform _spanwPoint1;
-    [SerializeField] private Transform _spanwPoint2;
-    [SerializeField] private Transform _spanwPoint3;
-    [SerializeField] private List<Transform> _waypoints1;
-    [SerializeField] private List<Transform> _waypoints2;
-    [SerializeField] private List<Transform> _waypoints3;
+    [SerializeField] private Transform _spanwPoints;
+    [SerializeField] private Transform _waypoints;
     [SerializeField] private GameObject _hp;
     [SerializeField] private GameObject _castleHp;
     [SerializeField] private GameObject _money;
@@ -32,12 +27,25 @@ public class SendWarriors : MonoBehaviour
     private bool _check;
     private GameObject _enemy;
     private bool _sendCheck;
+    private List<Transform> _allWaypoints = new List<Transform>();
+
+    #region MONO
+
+    private void Awake()
+    {
+        for (int i = 0; i < _waypoints.childCount; i++)
+        {
+            _allWaypoints.Add(_waypoints.GetChild(i).transform);
+        }
+    }
+
+    #endregion
 
     #region BODY
 
     void Update()
     {
-        if (_currency.GetComponent<Money>().Count < CostArmy || _sendCheck)
+        if (_money.GetComponent<Money>().Count < CostArmy || _sendCheck)
         {
             GetComponent<Button>().interactable = false;
         }
@@ -66,7 +74,7 @@ public class SendWarriors : MonoBehaviour
             _activeWarriors.Add(kvp.Key, kvp.Value);
         }
         Warriors.Clear();
-        _currency.GetComponent<Money>().Count -= CostArmy;
+        _money.GetComponent<Money>().Count -= CostArmy;
         InvokeRepeating("SpawnEnemy", _startTime, _enemyInterval);
         _sendCheck = true;
         Invoke("sendTimer", _sendDelay);
@@ -114,19 +122,32 @@ public class SendWarriors : MonoBehaviour
                 _checkRandom = true;
             }
         }
+        List<Transform> waypoints = new List<Transform>();
         switch (rndCount)
         {
             case 1:
-                enemy = Instantiate(_enemy, _spanwPoint1.position + _enemy.GetComponent<MoveToWayPoints>().Offset, Quaternion.identity);
-                enemy.GetComponent<MoveToWayPoints>().Waypoints = _waypoints1;
+                enemy = Instantiate(_enemy, _spanwPoints.GetChild(0).transform.position + _enemy.GetComponent<MoveToWayPoints>().Offset, Quaternion.identity);
+                foreach(var waypoint in _allWaypoints)
+                {
+                    waypoints.Add(waypoint.GetChild(0).transform);
+                }
+                enemy.GetComponent<MoveToWayPoints>().Waypoints = waypoints;
                 break;
             case 2:
-                enemy = Instantiate(_enemy, _spanwPoint2.position + _enemy.GetComponent<MoveToWayPoints>().Offset, Quaternion.identity);
-                enemy.GetComponent<MoveToWayPoints>().Waypoints = _waypoints2;
+                enemy = Instantiate(_enemy, _spanwPoints.GetChild(1).transform.position + _enemy.GetComponent<MoveToWayPoints>().Offset, Quaternion.identity);
+                foreach (var waypoint in _allWaypoints)
+                {
+                    waypoints.Add(waypoint.GetChild(1).transform);
+                }
+                enemy.GetComponent<MoveToWayPoints>().Waypoints = waypoints;
                 break;
             case 3:
-                enemy = Instantiate(_enemy, _spanwPoint3.position + _enemy.GetComponent<MoveToWayPoints>().Offset, Quaternion.identity);
-                enemy.GetComponent<MoveToWayPoints>().Waypoints = _waypoints3;
+                enemy = Instantiate(_enemy, _spanwPoints.GetChild(2).transform.position + _enemy.GetComponent<MoveToWayPoints>().Offset, Quaternion.identity);
+                foreach (var waypoint in _allWaypoints)
+                {
+                    waypoints.Add(waypoint.GetChild(2).transform);
+                }
+                enemy.GetComponent<MoveToWayPoints>().Waypoints = waypoints;
                 break;
         }
         enemy.GetComponent<Enemy>().CastleHP = _castleHp;

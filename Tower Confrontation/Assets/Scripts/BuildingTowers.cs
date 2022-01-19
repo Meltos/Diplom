@@ -14,6 +14,8 @@ public class BuildingTowers : MonoBehaviour
     private Camera _mainCamera;
     private GameObject _upgradeYet;
     private Tower _lastTower;
+    private bool _isPause;
+    private bool _isGameOver;
 
     #region MONO
 
@@ -29,15 +31,15 @@ public class BuildingTowers : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && _flyingBuilding != null)
+        if (Input.GetKeyDown(KeyCode.Escape) && _flyingBuilding != null && !_isGameOver)
         {
             CancelBuilding();
         }
-        else if (_upgradeYet != null && Input.GetKeyDown(KeyCode.Escape))
+        else if (_upgradeYet != null && Input.GetKeyDown(KeyCode.Escape) && !_isGameOver)
         {
             CancelUpgrade();
         }
-        else if (Input.GetKeyDown(KeyCode.Escape))
+        else if (Input.GetKeyDown(KeyCode.Escape) && !_isGameOver)
         {
             bool check = false;
             foreach (var panel in _panels)
@@ -53,11 +55,13 @@ public class BuildingTowers : MonoBehaviour
                     {
                         menu.SetActive(false);
                         Time.timeScale = 1;
+                        _isPause = false;
                     }
                     else
                     {
                         menu.SetActive(true);
                         Time.timeScale = 0;
+                        _isPause = true;
                     }
                 }
             }
@@ -94,6 +98,7 @@ public class BuildingTowers : MonoBehaviour
                         }
                         if (Input.GetMouseButtonDown(0) && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() && !place.occupied)
                         {
+                            _lastTower = _flyingBuilding;
                             _money.CoinMinus(_flyingBuilding.Cost);
                             place.occupied = true;
                             place.Tower = _flyingBuilding.GetComponent<Tower>();
@@ -110,13 +115,13 @@ public class BuildingTowers : MonoBehaviour
                 }
             }
         }
-        else if (_flyingBuilding == null && Input.GetMouseButtonDown(0))
+        else if (_flyingBuilding == null && Input.GetMouseButtonDown(0) && !_isPause && !_isGameOver)
         {
             Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.collider.tag == "Tower" && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+                if (hit.collider.tag == "Tower" && !hit.collider.GetComponent<Tower>().IsBot && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
                 {
                     if (_upgradeYet != null)
                     {
@@ -140,7 +145,7 @@ public class BuildingTowers : MonoBehaviour
                 }
             }
         }
-        else if (_flyingBuilding == null && _lastTower != null && Input.GetMouseButton(0) && Input.GetKey(KeyCode.LeftShift) && _money.Count >= _lastTower.Cost)
+        else if (_flyingBuilding == null && _lastTower != null && Input.GetMouseButton(0) && Input.GetKey(KeyCode.LeftShift) && _money.Count >= _lastTower.Cost && !_isPause && !_isGameOver)
         {
             Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -151,19 +156,19 @@ public class BuildingTowers : MonoBehaviour
                     TowerPlaces place = hit.collider.GetComponent<TowerPlaces>();
                     if (!place.occupied && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
                     {
-                        _lastTower = Instantiate(_lastTower);
-                        _lastTower.transform.position = hit.transform.position;
-                        _money.CoinMinus(_lastTower.Cost);
+                        Tower lastTower = Instantiate(_lastTower);
+                        lastTower.transform.position = hit.transform.position;
+                        _money.CoinMinus(lastTower.Cost);
                         place.occupied = true;
                         place.Tower = _lastTower.GetComponent<Tower>();
-                        _lastTower.TowerPlace = place;
-                        _lastTower.IsPlaced = true;
-                        _lastTower.SetNormal();
+                        lastTower.TowerPlace = place;
+                        lastTower.IsPlaced = true;
+                        lastTower.SetNormal();
                     }
                 }
             }
         }
-        else if (_flyingBuilding == null && Input.GetMouseButtonDown(1) && Input.GetKey(KeyCode.LeftShift))
+        else if (_flyingBuilding == null && Input.GetMouseButtonDown(1) && Input.GetKey(KeyCode.LeftShift) && !_isPause && !_isGameOver)
         {
             Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -171,7 +176,8 @@ public class BuildingTowers : MonoBehaviour
             {
                 if (hit.collider.tag == "Tower" && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() 
                     && hit.collider.gameObject.GetComponent<Tower>().Cost <= _money.Count 
-                    && hit.collider.gameObject.GetComponent<Tower>().NextLevelTower != null)
+                    && hit.collider.gameObject.GetComponent<Tower>().NextLevelTower != null
+                    && !hit.collider.GetComponent<Tower>().IsBot)
                 {
                     GameObject upgrade = Instantiate(_editTower, Vector3.zero, Quaternion.identity);
                     upgrade.GetComponent<EditTower>().TowerObj = hit.collider.gameObject;
@@ -199,7 +205,6 @@ public class BuildingTowers : MonoBehaviour
             Destroy(_flyingBuilding.gameObject);
         }
         _flyingBuilding = Instantiate(buildingPrefab);
-        _lastTower = buildingPrefab;
         _flyingBuilding.GetComponent<Collider>().isTrigger = true;
         _flyingBuilding.transform.GetChild(1).gameObject.SetActive(false);
         _flyingBuilding.gameObject.transform.GetChild(2).gameObject.SetActive(true);
@@ -232,16 +237,21 @@ public class BuildingTowers : MonoBehaviour
         Destroy(remove.gameObject);
     }
 
+    /// <summary>
+    ///  Отмена строительства башни.
+    /// </summary>
     public void CancelBuilding()
     {
         if (_flyingBuilding != null)
         {
             Destroy(_flyingBuilding.gameObject);
             _flyingBuilding = null;
-            _lastTower = null;
         }
     }
 
+    /// <summary>
+    ///  Удаление меню улучшения.
+    /// </summary>
     public void CancelUpgrade()
     {
         if (_upgradeYet != null)
@@ -250,6 +260,22 @@ public class BuildingTowers : MonoBehaviour
             Destroy(_upgradeYet.gameObject);
             _upgradeYet = null;
         }
+    }
+
+    public void GameOver()
+    {
+        _isGameOver = true;
+        foreach (var panel in _panels)
+        {
+            panel.SetActive(false);
+        }
+        foreach (var menu in _menus)
+        {
+            menu.SetActive(false);
+        }
+        CancelBuilding();
+        CancelUpgrade();
+        Time.timeScale = 0;
     }
 
     #endregion

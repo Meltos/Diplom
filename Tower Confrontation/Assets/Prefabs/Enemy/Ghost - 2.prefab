@@ -202,11 +202,17 @@ MonoBehaviour:
   Cost: 30
   EXPCost: 200
   EXPReward: 32
-  Hp: {fileID: 3187666260639609714, guid: 27ee1e652521a3f43bb3cd2c35b58ebf, type: 3}
+  Hp: {fileID: 0}
   CastleHP: {fileID: 0}
   Money: {fileID: 0}
   IsFreeze: 0
+  IsFire: 0
+  TimeFire: 0
+  TimeFreeze: 0
   InvulnerabilityToTowers: 
+  BurnDamage: 0
+  FreezePower: 0
+  IceTower: {fileID: 0}
 --- !u!54 &-5138965509786272499
 Rigidbody:
   m_ObjectHideFlags: 0
