@@ -1,0 +1,42 @@
+A very fast mob, which can be useful in both the start and the middle of the game.
+This mob is invulnerable to the Mage and the Zeus Tower.
+
+Spoiler: Level 1
+Looks like a normal zombie pigman
+Price: 50 coins
+Damage: 1.0
+HP: 150
+Speed: 2.0 (Fast)
+EXP Reward: 44
+
+Spoiler: Level 2
+Holds golden sword.
+Price: 120 coins
+Damage: 1.0
+HP: 210
+Speed: 2.0 (Fast)
+EXP Reward: 48
+
+Spoiler: Level 3
+Holds stone sword.
+Price: 144 coins
+Damage: 1.0
+HP: 297
+Speed: 2.0 (Fast)
+EXP Reward: 50
+
+Spoiler: Level 4
+Holds iron sword.
+Price: 173 coins
+Damage: 1.0
+HP: 412
+Speed: 2.0 (Fast)
+EXP Reward: 50
+
+Spoiler: Level 5
+Holds diamond sword.
+Price: 207 coins
+Damage: 1.5
+HP: 576
+Speed: 2.0 (Fast)
+EXP Reward: 54

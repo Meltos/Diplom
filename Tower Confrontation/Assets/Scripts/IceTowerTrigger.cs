@@ -15,7 +15,11 @@ public class IceTowerTrigger : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Enemy") && !other.GetComponent<Enemy>().IsFreeze && !FreezesEnemy.Contains(other.gameObject) && Tower.IsPlaced && other.gameObject.GetComponent<Enemy>().HP > 0)
+        if (other.CompareTag("Enemy") && !other.GetComponent<Enemy>().IsFreeze
+            && !FreezesEnemy.Contains(other.gameObject) 
+            && Tower.IsPlaced 
+            && other.gameObject.GetComponent<Enemy>().HP > 0
+            && !other.GetComponent<Enemy>().InvulnerabilityToTowers.Contains(Tower.Type))
         {
             other.GetComponent<Enemy>().IsFreeze = true;
             other.GetComponent<Enemy>().TimeFreeze = 2;
@@ -23,7 +27,10 @@ public class IceTowerTrigger : MonoBehaviour
             other.GetComponent<Enemy>().IceTower = Tower;
             FreezesEnemy.Add(other.gameObject);
         }
-        else if (other.CompareTag("Enemy") && !FreezesEnemy.Contains(other.gameObject) && Tower.IsPlaced && other.gameObject.GetComponent<Enemy>().HP > 0)
+        else if (other.CompareTag("Enemy") && !FreezesEnemy.Contains(other.gameObject)
+            && Tower.IsPlaced
+            && other.gameObject.GetComponent<Enemy>().HP > 0
+            && !other.GetComponent<Enemy>().InvulnerabilityToTowers.Contains(Tower.Type))
         {
             if (Tower.NextLevelTower == null && other.GetComponent<Enemy>().IceTower.NextLevelTower != null)
             {

@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
     public GameObject Hp;
     public GameObject CastleHP;
     public GameObject Money;
+    public GameObject EXP;
     public bool IsFreeze;
     public bool IsFire;
     public float TimeFire;
@@ -23,6 +24,10 @@ public class Enemy : MonoBehaviour
     public float BurnDamage;
     public float FreezePower;
     public Tower IceTower;
+    public Vector3 HpOffset;
+    public GameObject FireEffect;
+    public GameObject FreezeEffect;
+    public bool IsEnemy;
 
     private bool _isDeath;
     private bool _isAttack;
@@ -45,7 +50,10 @@ public class Enemy : MonoBehaviour
         if (HP <= 0 && !_isDeath)
         {
             _isDeath = true;
-            Money.GetComponent<Money>().CoinPlus(Cost);
+            if (IsEnemy)
+                Money.GetComponent<Money>().CoinPlus(Cost);
+            else
+                EXP.GetComponent<Experience>().ExpPlus(EXPReward);
             gameObject.GetComponent<MoveToWayPoints>().Waypoints = new List<Transform>();
             gameObject.transform.GetChild(0).gameObject.GetComponent<Animator>().SetBool("isDead", true);
             StartCoroutine(Death());
@@ -102,10 +110,15 @@ public class Enemy : MonoBehaviour
     IEnumerator Burn()
     {
         _isBurn = true;
+        if (!FireEffect.activeSelf)
+            FireEffect.SetActive(true);
         yield return new WaitForSeconds(1f);
         TimeFire--;
         if (TimeFire == 0)
+        {
             IsFire = false;
+            FireEffect.SetActive(false);
+        }
         if (HP > 0)
             Hp.GetComponent<EnemyHPScript>().Damage(BurnDamage);
         _isBurn = false;
@@ -114,12 +127,17 @@ public class Enemy : MonoBehaviour
     IEnumerator Freeze()
     {
         _isFrozen = true;
+        if (!FreezeEffect.activeSelf)
+            FreezeEffect.SetActive(true);
         gameObject.GetComponent<MoveToWayPoints>().Speed *= 1 - FreezePower;
         yield return new WaitForSeconds(1f);
         gameObject.GetComponent<MoveToWayPoints>().Speed = gameObject.GetComponent<MoveToWayPoints>().MaxSpeed;
         TimeFreeze--;
         if (TimeFreeze == 0)
+        {
             IsFreeze = false;
+            FreezeEffect.SetActive(false);
+        }
         _isFrozen = false;
     }
 

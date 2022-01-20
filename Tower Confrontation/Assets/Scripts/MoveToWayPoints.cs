@@ -11,12 +11,14 @@ public class MoveToWayPoints : MonoBehaviour
     public List<Transform> Waypoints;
 
     private int _curWaypointIndex = 0;
+    private Transform _thisTransform;
 
     #region MONO
 
     private void Awake()
     {
         Speed = MaxSpeed;
+        _thisTransform = transform;
     }
 
     #endregion
@@ -27,9 +29,9 @@ public class MoveToWayPoints : MonoBehaviour
     {
         if(_curWaypointIndex < Waypoints.Count)
         {
-            transform.position = Vector3.MoveTowards(transform.position, Waypoints[_curWaypointIndex].position + Offset, Time.deltaTime * Speed / 5);
-            transform.LookAt(Waypoints[_curWaypointIndex].position + Offset);
-            if (Vector3.Distance(transform.position, Waypoints[_curWaypointIndex].position + Offset) < 0.0001f)
+            _thisTransform.position = Vector3.MoveTowards(_thisTransform.position, Waypoints[_curWaypointIndex].position + Offset, Time.deltaTime * Speed / 5);
+            _thisTransform.LookAt(Waypoints[_curWaypointIndex].position + Offset);
+            if (Vector3.Distance(_thisTransform.position, Waypoints[_curWaypointIndex].position + Offset) < 0.0001f)
             {
                 _curWaypointIndex++;
             }

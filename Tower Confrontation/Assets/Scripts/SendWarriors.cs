@@ -14,11 +14,11 @@ public class SendWarriors : MonoBehaviour
     [SerializeField] private GameObject _hp;
     [SerializeField] private GameObject _castleHp;
     [SerializeField] private GameObject _money;
+    [SerializeField] private GameObject _exp;
     [SerializeField] private GameObject _canvas;
 
     public int CountAllEnemy;
-    public GameObject Beatle;
-    public GameObject Ghost;
+    public List<GameObject> Enemies;
     public int CostArmy;
     public Dictionary<string, GameObject> Warriors = new Dictionary<string, GameObject>();
 
@@ -78,8 +78,10 @@ public class SendWarriors : MonoBehaviour
         InvokeRepeating("SpawnEnemy", _startTime, _enemyInterval);
         _sendCheck = true;
         Invoke("sendTimer", _sendDelay);
-        Beatle.GetComponent<HiringWarriors>().CountEnemy = 0;
-        Ghost.GetComponent<HiringWarriors>().CountEnemy = 0;
+        foreach (var enemy in Enemies)
+        {
+            enemy.GetComponent<HiringWarriors>().CountEnemy = 0;
+        }
         CountAllEnemy = 0;
         CostArmy = 0;
     }
@@ -152,8 +154,11 @@ public class SendWarriors : MonoBehaviour
         }
         enemy.GetComponent<Enemy>().CastleHP = _castleHp;
         enemy.GetComponent<Enemy>().Money = _money;
+        enemy.GetComponent<Enemy>().EXP = _exp;
+        enemy.GetComponent<Enemy>().IsEnemy = false;
         GameObject hp = Instantiate(_hp, Vector3.zero, Quaternion.identity);
         hp.GetComponent<EnemyHPScript>().EnemyObj = enemy;
+        hp.GetComponent<EnemyHPScript>().Offset = enemy.GetComponent<Enemy>().HpOffset;
         hp.transform.SetParent(_canvas.transform);
         hp.transform.SetAsFirstSibling();
         enemy.GetComponent<Enemy>().Hp = hp;

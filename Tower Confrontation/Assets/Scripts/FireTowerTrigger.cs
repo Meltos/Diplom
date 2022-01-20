@@ -13,7 +13,12 @@ public class FireTowerTrigger : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Enemy") && Tower.IsPlaced && !other.gameObject.GetComponent<Enemy>().IsFire && other.gameObject.GetComponent<Enemy>().HP > 0)
+        if (other.CompareTag("Enemy")
+            && Tower.IsPlaced
+            && !other.gameObject.GetComponent<Enemy>().IsFire
+            && other.gameObject.GetComponent<Enemy>().HP > 0
+            && !BurnedEnemies.Contains(other.gameObject)
+            && !other.GetComponent<Enemy>().InvulnerabilityToTowers.Contains(Tower.Type))
         {
             other.gameObject.GetComponent<Enemy>().BurnDamage = Tower.Damage;
             BurnedEnemies.Add(other.gameObject);

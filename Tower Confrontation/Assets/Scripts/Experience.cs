@@ -15,4 +15,18 @@ public class Experience : MonoBehaviour
     }
 
     #endregion
+
+    #region CALLBACKS
+
+    public void ExpPlus(int countEXP)
+    {
+        Count += countEXP;
+    }
+
+    public void ExpMinus(int countEXP)
+    {
+        Count -= countEXP;
+    }
+
+    #endregion
 }
