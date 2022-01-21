@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class EnemyHPScript : MonoBehaviour
 {
     public Vector3 Offset;
-    public GameObject EnemyObj;
+    public Enemy EnemyObj;
 
     #region BODY
 
@@ -18,7 +18,7 @@ public class EnemyHPScript : MonoBehaviour
             Destroy(gameObject);
         }
         GetComponent<RectTransform>().position = Camera.main.WorldToScreenPoint(EnemyObj.transform.GetChild(0).transform.position + Offset);
-        GetComponent<Slider>().value = EnemyObj.GetComponent<Enemy>().HP / EnemyObj.GetComponent<Enemy>().MaxHP;
+        GetComponent<Slider>().value = EnemyObj.HP / EnemyObj.MaxHP;
     }
 
     #endregion

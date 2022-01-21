@@ -13,7 +13,7 @@ public class UpgradeWarriors : MonoBehaviour
     public int Level;
     public bool IsOpen;
     public int EXPCost;
-    public GameObject Warrior;
+    public Enemy Warrior;
 
     #region BODY
 

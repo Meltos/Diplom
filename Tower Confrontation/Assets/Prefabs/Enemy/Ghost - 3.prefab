@@ -4988,6 +4988,7 @@ MonoBehaviour:
   Offset: {x: 0, y: 0.25, z: 0}
   Speed: 2.5
   MaxSpeed: 2.5
+  FirstLevelSpeed: 1.6
   Waypoints: []
 --- !u!114 &4886743943377345460
 MonoBehaviour:
@@ -5011,6 +5012,7 @@ MonoBehaviour:
   Hp: {fileID: 0}
   CastleHP: {fileID: 0}
   Money: {fileID: 0}
+  EXP: {fileID: 0}
   IsFreeze: 0
   IsFire: 0
   TimeFire: 0
@@ -5022,6 +5024,7 @@ MonoBehaviour:
   HpOffset: {x: 0, y: 0.1, z: 0}
   FireEffect: {fileID: 727649605800068640}
   FreezeEffect: {fileID: 7985675160588479674}
+  IsEnemy: 0
 --- !u!54 &-1568445430370693983
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5077,7 +5080,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7985675160588479674}
   m_LocalRotation: {x: -0.70710725, y: -0, z: -0, w: 0.7071064}
-  m_LocalPosition: {x: 0, y: -0.078, z: 0}
+  m_LocalPosition: {x: 0, y: -0.098, z: 0}
   m_LocalScale: {x: 0.15448, y: 0.15448, z: 0.15448}
   m_Children: []
   m_Father: {fileID: 3452399563417083275}

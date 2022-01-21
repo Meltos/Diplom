@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GenerateStartTower : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> _startTowers = new List<GameObject>();
-    [SerializeField] private GameObject _towerPlace;
+    [SerializeField] private List<Tower> _startTowers = new List<Tower>();
+    [SerializeField] private TowerPlaces _towerPlace;
 
     private void Awake()
     {

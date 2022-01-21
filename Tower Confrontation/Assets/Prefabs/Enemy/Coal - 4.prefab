@@ -50,6 +50,7 @@ MonoBehaviour:
   Offset: {x: 0, y: 0.12, z: 0}
   Speed: 2
   MaxSpeed: 2
+  FirstLevelSpeed: 2
   Waypoints: []
 --- !u!114 &5549773057715044750
 MonoBehaviour:
@@ -73,6 +74,7 @@ MonoBehaviour:
   Hp: {fileID: 0}
   CastleHP: {fileID: 0}
   Money: {fileID: 0}
+  EXP: {fileID: 0}
   IsFreeze: 0
   IsFire: 0
   TimeFire: 0
@@ -84,6 +86,7 @@ MonoBehaviour:
   HpOffset: {x: 0, y: 0.15, z: 0}
   FireEffect: {fileID: 0}
   FreezeEffect: {fileID: 6105698831989757145}
+  IsEnemy: 0
 --- !u!65 &2140475033219483832
 BoxCollider:
   m_ObjectHideFlags: 0

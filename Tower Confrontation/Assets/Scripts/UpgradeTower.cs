@@ -11,11 +11,11 @@ public class UpgradeTower : MonoBehaviour
 
     void Update()
     {
-        if (_parent.TowerObj.GetComponent<Tower>().NextLevelTower == null)
+        if (_parent.TowerObj.NextLevelTower == null)
         {
             GetComponent<Button>().interactable = false;
         }
-        else if (_parent.Money.Count < _parent.TowerObj.GetComponent<Tower>().NextLevelTower.Cost)
+        else if (_parent.Money.Count < _parent.TowerObj.NextLevelTower.Cost)
         {
             GetComponent<Button>().interactable = false;
         }

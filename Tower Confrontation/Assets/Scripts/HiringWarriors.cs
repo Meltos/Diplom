@@ -14,7 +14,7 @@ public class HiringWarriors : MonoBehaviour, IPointerClickHandler
     public bool IsOpen;
     public int CountEnemy;
     public Text CountEnemeyText;
-    public GameObject Warrior;
+    public Enemy Warrior;
 
     #region MONO
 
@@ -24,7 +24,7 @@ public class HiringWarriors : MonoBehaviour, IPointerClickHandler
         {
             CountEnemeyText.color = _colorEXP;
         }
-        CountEnemeyText.text = Warrior.GetComponent<Enemy>().EXPCost.ToString();
+        CountEnemeyText.text = Warrior.EXPCost.ToString();
     }
 
     #endregion
@@ -35,7 +35,7 @@ public class HiringWarriors : MonoBehaviour, IPointerClickHandler
     {
         if (IsOpen)
             CountEnemeyText.text = CountEnemy.ToString();
-        if (_exp.Count < Warrior.GetComponent<Enemy>().EXPCost)
+        if (_exp.Count < Warrior.EXPCost)
             GetComponent<Button>().interactable = false;
         else
             GetComponent<Button>().interactable = true;
@@ -50,9 +50,9 @@ public class HiringWarriors : MonoBehaviour, IPointerClickHandler
     /// </summary>
     public void OnPointerClick(PointerEventData pointerEventData)
     {
-        if (!IsOpen && _exp.Count >= Warrior.GetComponent<Enemy>().EXPCost)
+        if (!IsOpen && _exp.Count >= Warrior.EXPCost)
         {
-            _exp.Count -= Warrior.GetComponent<Enemy>().EXPCost;
+            _exp.Count -= Warrior.EXPCost;
             CountEnemeyText.color = _colorText;
             IsOpen = true;
         }
@@ -64,7 +64,7 @@ public class HiringWarriors : MonoBehaviour, IPointerClickHandler
                 for (int i = 0; i < 12 - _sendWarriors.CountAllEnemy; i++)
                 {
                     CountEnemy++;
-                    _sendWarriors.CostArmy += Warrior.GetComponent<Enemy>().Cost;
+                    _sendWarriors.CostArmy += Warrior.Cost;
                     _sendWarriors.Warriors.Add(Warrior.name + CountEnemy, Warrior);
                 }
                 _sendWarriors.CountAllEnemy = 12;
@@ -77,14 +77,14 @@ public class HiringWarriors : MonoBehaviour, IPointerClickHandler
                 {
                     _sendWarriors.Warriors.Remove(Warrior.name + CountEnemy);
                     CountEnemy--;
-                    _sendWarriors.CostArmy -= Warrior.GetComponent<Enemy>().Cost;
+                    _sendWarriors.CostArmy -= Warrior.Cost;
                 }
                 _sendWarriors.CountAllEnemy -= pasteCountEnemy;
             }
             else if (pointerEventData.button == PointerEventData.InputButton.Left && _sendWarriors.CountAllEnemy < 12)
             {
                 CountEnemy++;
-                _sendWarriors.CostArmy += Warrior.GetComponent<Enemy>().Cost;
+                _sendWarriors.CostArmy += Warrior.Cost;
                 _sendWarriors.Warriors.Add(Warrior.name + CountEnemy, Warrior);
                 _sendWarriors.CountAllEnemy++;
             }
@@ -92,7 +92,7 @@ public class HiringWarriors : MonoBehaviour, IPointerClickHandler
             {
                 _sendWarriors.Warriors.Remove(Warrior.name + CountEnemy);
                 CountEnemy--;
-                _sendWarriors.CostArmy -= Warrior.GetComponent<Enemy>().Cost;
+                _sendWarriors.CostArmy -= Warrior.Cost;
                 _sendWarriors.CountAllEnemy--;
             }
         }
@@ -108,7 +108,7 @@ public class HiringWarriors : MonoBehaviour, IPointerClickHandler
         {
             _sendWarriors.Warriors.Remove(Warrior.name + CountEnemy);
             CountEnemy--;
-            _sendWarriors.CostArmy -= Warrior.GetComponent<Enemy>().Cost;
+            _sendWarriors.CostArmy -= Warrior.Cost;
         }
         _sendWarriors.CountAllEnemy -= pasteCountEnemy;
         return pasteCountEnemy;
@@ -122,7 +122,7 @@ public class HiringWarriors : MonoBehaviour, IPointerClickHandler
         for (int i = 0; i < pasteCountEnemy; i++)
         {
             CountEnemy++;
-            _sendWarriors.CostArmy += Warrior.GetComponent<Enemy>().Cost;
+            _sendWarriors.CostArmy += Warrior.Cost;
             _sendWarriors.Warriors.Add(Warrior.name + CountEnemy, Warrior);
         }
         _sendWarriors.CountAllEnemy += pasteCountEnemy;

@@ -514,11 +514,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _startTowers:
-  - {fileID: 6647920360917144704, guid: 82479e06d45b23846a2d1c1662d6022b, type: 3}
-  - {fileID: 3811236586327701460, guid: bf9a6e6805cbfa2499cb2c4ed9a301b7, type: 3}
-  - {fileID: 1670078320825665155, guid: 0e7682dff3a838f44b73e970df032737, type: 3}
-  - {fileID: 3823918428184581148, guid: dec19b78c70b2a24c85b565c5fb29c07, type: 3}
-  _towerPlace: {fileID: 1740721061}
+  - {fileID: 4475539528599150429, guid: 82479e06d45b23846a2d1c1662d6022b, type: 3}
+  - {fileID: 2019042152779978, guid: bf9a6e6805cbfa2499cb2c4ed9a301b7, type: 3}
+  - {fileID: 7348859427922089228, guid: 0e7682dff3a838f44b73e970df032737, type: 3}
+  - {fileID: 6372225188890811856, guid: dec19b78c70b2a24c85b565c5fb29c07, type: 3}
+  _towerPlace: {fileID: 1740721062}
 --- !u!114 &357221033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1053,12 +1053,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1740721061 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6649272070834410681, guid: cd34dd37f0950044f9848836cca24ca9,
+--- !u!114 &1740721062 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2139407207, guid: cd34dd37f0950044f9848836cca24ca9,
     type: 3}
   m_PrefabInstance: {fileID: 644909325}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5df8ec4db66e25d45bc73e69903086b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1847959325
 PrefabInstance:
   m_ObjectHideFlags: 0

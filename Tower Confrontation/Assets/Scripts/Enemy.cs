@@ -12,10 +12,10 @@ public class Enemy : MonoBehaviour
     public int Cost;
     public int EXPCost;
     public int EXPReward;
-    public GameObject Hp;
-    public GameObject CastleHP;
-    public GameObject Money;
-    public GameObject EXP;
+    public EnemyHPScript Hp;
+    public CastleHP CastleHP;
+    public Money Money;
+    public Experience EXP;
     public bool IsFreeze;
     public bool IsFire;
     public float TimeFire;
@@ -33,12 +33,18 @@ public class Enemy : MonoBehaviour
     private bool _isAttack;
     private bool _isBurn;
     private bool _isFrozen;
+    private float _differenceSpeed;
+    private Animator _thisAnimator;
+    private MoveToWayPoints _thisMoveToWayPoints;
 
     #region MONO
 
     private void Awake()
     {
         HP = MaxHP;
+        _thisAnimator = gameObject.transform.GetChild(0).gameObject.GetComponent<Animator>();
+        _thisMoveToWayPoints = gameObject.GetComponent<MoveToWayPoints>();
+        _differenceSpeed = _thisAnimator.speed / _thisMoveToWayPoints.FirstLevelSpeed;
     }
 
     #endregion
@@ -51,11 +57,11 @@ public class Enemy : MonoBehaviour
         {
             _isDeath = true;
             if (IsEnemy)
-                Money.GetComponent<Money>().CoinPlus(Cost);
+                Money.CoinPlus(Cost);
             else
-                EXP.GetComponent<Experience>().ExpPlus(EXPReward);
-            gameObject.GetComponent<MoveToWayPoints>().Waypoints = new List<Transform>();
-            gameObject.transform.GetChild(0).gameObject.GetComponent<Animator>().SetBool("isDead", true);
+                EXP.ExpPlus(EXPReward);
+            _thisMoveToWayPoints.Waypoints = new List<Transform>();
+            _thisAnimator.SetBool("isDead", true);
             StartCoroutine(Death());
         }
         else
@@ -69,6 +75,10 @@ public class Enemy : MonoBehaviour
                 StartCoroutine(Freeze());
             }
         }
+        if (!_isAttack)
+            _thisAnimator.speed = _thisMoveToWayPoints.Speed * _differenceSpeed;
+        else
+            _thisAnimator.speed = _thisMoveToWayPoints.MaxSpeed * _differenceSpeed;
     }
 
     IEnumerator Death()
@@ -93,10 +103,10 @@ public class Enemy : MonoBehaviour
         _isAttack = true;
         StartCoroutine(AttackAnimation());
         yield return new WaitForSeconds(_attackDelay);
-        gameObject.transform.GetChild(0).gameObject.GetComponent<Animator>().SetBool("isAttack", false);
+        _thisAnimator.SetBool("isAttack", false);
         if (!_isDeath)
         {
-            CastleHP.GetComponent<CastleHP>().Damage(_damage);
+            CastleHP.Damage(_damage);
         }
         _isAttack = false;
     }
@@ -104,7 +114,7 @@ public class Enemy : MonoBehaviour
     IEnumerator AttackAnimation()
     {
         yield return new WaitForSeconds(0.75f);
-        gameObject.transform.GetChild(0).gameObject.GetComponent<Animator>().SetBool("isAttack", true);
+        _thisAnimator.SetBool("isAttack", true);
     }
 
     IEnumerator Burn()
@@ -120,7 +130,7 @@ public class Enemy : MonoBehaviour
             FireEffect.SetActive(false);
         }
         if (HP > 0)
-            Hp.GetComponent<EnemyHPScript>().Damage(BurnDamage);
+            Hp.Damage(BurnDamage);
         _isBurn = false;
     }
 
@@ -129,9 +139,9 @@ public class Enemy : MonoBehaviour
         _isFrozen = true;
         if (!FreezeEffect.activeSelf)
             FreezeEffect.SetActive(true);
-        gameObject.GetComponent<MoveToWayPoints>().Speed *= 1 - FreezePower;
+        _thisMoveToWayPoints.Speed *= 1 - FreezePower;
         yield return new WaitForSeconds(1f);
-        gameObject.GetComponent<MoveToWayPoints>().Speed = gameObject.GetComponent<MoveToWayPoints>().MaxSpeed;
+        _thisMoveToWayPoints.Speed = _thisMoveToWayPoints.MaxSpeed;
         TimeFreeze--;
         if (TimeFreeze == 0)
         {

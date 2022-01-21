@@ -8,6 +8,7 @@ public class MoveToWayPoints : MonoBehaviour
 
     public float Speed;
     public float MaxSpeed;
+    public float FirstLevelSpeed;
     public List<Transform> Waypoints;
 
     private int _curWaypointIndex = 0;

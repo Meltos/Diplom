@@ -7,7 +7,7 @@ public class TowerTrigger : MonoBehaviour
     [SerializeField] private Tower _tower;
 
     private bool _enemylock;
-    private GameObject _curTarget;
+    private Enemy _curTarget;
 
     #region BODY
 
@@ -16,7 +16,7 @@ public class TowerTrigger : MonoBehaviour
         if (other.CompareTag("Enemy") && !_enemylock && !other.GetComponent<Enemy>().InvulnerabilityToTowers.Contains(_tower.Type))
         {
             _tower.target = other.gameObject.transform;
-            _curTarget = other.gameObject;
+            _curTarget = other.gameObject.GetComponent<Enemy>();
             _enemylock = true;
         }
     }
@@ -37,7 +37,7 @@ public class TowerTrigger : MonoBehaviour
         {
             _enemylock = false;
         }
-        if (_curTarget && _curTarget.GetComponent<Enemy>().HP < 0)
+        if (_curTarget && _curTarget.HP < 0)
         {
             _enemylock = false;
             _tower.target = null;

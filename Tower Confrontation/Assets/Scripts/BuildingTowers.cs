@@ -5,14 +5,14 @@ using UnityEngine;
 public class BuildingTowers : MonoBehaviour
 {
     [SerializeField] private Money _money;
-    [SerializeField] private GameObject _editTower;
+    [SerializeField] private EditTower _editTower;
     [SerializeField] private GameObject _canvas;
     [SerializeField] private List<GameObject> _menus;
     [SerializeField] private List<GameObject> _panels;
 
     private Tower _flyingBuilding;
     private Camera _mainCamera;
-    private GameObject _upgradeYet;
+    private EditTower _upgradeYet;
     private Tower _lastTower;
     private bool _isPause;
     private bool _isGameOver;
@@ -70,7 +70,7 @@ public class BuildingTowers : MonoBehaviour
         {
             if (_upgradeYet != null)
             {
-                _upgradeYet.GetComponent<EditTower>().TowerObj.transform.GetChild(2).gameObject.SetActive(false);
+                _upgradeYet.TowerObj.transform.GetChild(2).gameObject.SetActive(false);
                 Destroy(_upgradeYet.gameObject);
                 _upgradeYet = null;
             }
@@ -101,7 +101,7 @@ public class BuildingTowers : MonoBehaviour
                             _lastTower = _flyingBuilding;
                             _money.CoinMinus(_flyingBuilding.Cost);
                             place.occupied = true;
-                            place.Tower = _flyingBuilding.GetComponent<Tower>();
+                            place.Tower = _flyingBuilding;
                             _flyingBuilding.GetComponent<Collider>().isTrigger = false;
                             _flyingBuilding.SetNormal();
                             _flyingBuilding.transform.GetChild(1).gameObject.SetActive(true);
@@ -125,21 +125,21 @@ public class BuildingTowers : MonoBehaviour
                 {
                     if (_upgradeYet != null)
                     {
-                        _upgradeYet.GetComponent<EditTower>().TowerObj.transform.GetChild(2).gameObject.SetActive(false);
+                        _upgradeYet.TowerObj.transform.GetChild(2).gameObject.SetActive(false);
                         Destroy(_upgradeYet.gameObject);
                         _upgradeYet = null;
                     }
-                    GameObject upgrade = Instantiate(_editTower, Vector3.zero, Quaternion.identity);
-                    upgrade.GetComponent<EditTower>().TowerObj = hit.collider.gameObject;
-                    upgrade.GetComponent<EditTower>().Offset = hit.collider.gameObject.GetComponent<Tower>().Offset;
-                    upgrade.GetComponent<EditTower>().Money = _money;
+                    EditTower upgrade = Instantiate(_editTower, Vector3.zero, Quaternion.identity);
+                    upgrade.TowerObj = hit.collider.gameObject.GetComponent<Tower>();
+                    upgrade.Offset = hit.collider.gameObject.GetComponent<Tower>().Offset;
+                    upgrade.Money = _money;
                     upgrade.transform.SetParent(_canvas.transform);
-                    upgrade.GetComponent<EditTower>().TowerObj.transform.GetChild(2).gameObject.SetActive(true);
+                    upgrade.TowerObj.transform.GetChild(2).gameObject.SetActive(true);
                     _upgradeYet = upgrade;
                 }
                 else if (hit.collider.tag != "Tower" && _upgradeYet != null && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
                 {
-                    _upgradeYet.GetComponent<EditTower>().TowerObj.transform.GetChild(2).gameObject.SetActive(false);
+                    _upgradeYet.TowerObj.transform.GetChild(2).gameObject.SetActive(false);
                     Destroy(_upgradeYet.gameObject);
                     _upgradeYet = null;
                 }
@@ -160,7 +160,7 @@ public class BuildingTowers : MonoBehaviour
                         lastTower.transform.position = hit.transform.position;
                         _money.CoinMinus(lastTower.Cost);
                         place.occupied = true;
-                        place.Tower = _lastTower.GetComponent<Tower>();
+                        place.Tower = _lastTower;
                         lastTower.TowerPlace = place;
                         lastTower.IsPlaced = true;
                         lastTower.SetNormal();
@@ -175,17 +175,17 @@ public class BuildingTowers : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 if (hit.collider.tag == "Tower" && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() 
-                    && hit.collider.gameObject.GetComponent<Tower>().Cost <= _money.Count 
+                    && hit.collider.gameObject.GetComponent<Tower>().NextLevelTower.Cost <= _money.Count 
                     && hit.collider.gameObject.GetComponent<Tower>().NextLevelTower != null
                     && !hit.collider.GetComponent<Tower>().IsBot)
                 {
-                    GameObject upgrade = Instantiate(_editTower, Vector3.zero, Quaternion.identity);
-                    upgrade.GetComponent<EditTower>().TowerObj = hit.collider.gameObject;
-                    upgrade.GetComponent<EditTower>().Offset = hit.collider.gameObject.GetComponent<Tower>().Offset;
-                    upgrade.GetComponent<EditTower>().Money = _money;
+                    EditTower upgrade = Instantiate(_editTower, Vector3.zero, Quaternion.identity);
+                    upgrade.TowerObj = hit.collider.gameObject.GetComponent<Tower>();
+                    upgrade.Offset = hit.collider.gameObject.GetComponent<Tower>().Offset;
+                    upgrade.Money = _money;
                     upgrade.transform.SetParent(_canvas.transform);
-                    upgrade.GetComponent<EditTower>().TowerObj.transform.GetChild(2).gameObject.SetActive(true);
-                    UpgradeBuilding(upgrade.GetComponent<EditTower>());
+                    upgrade.TowerObj.transform.GetChild(2).gameObject.SetActive(true);
+                    UpgradeBuilding(upgrade);
                 }
             }
         }
@@ -216,11 +216,11 @@ public class BuildingTowers : MonoBehaviour
     /// </summary>
     public void UpgradeBuilding(EditTower upgrade)
     {
-        Tower newTower = upgrade.TowerObj.GetComponent<Tower>().NextLevelTower;
-        GameObject newTowerObject = Instantiate(newTower.gameObject, upgrade.TowerObj.transform.position, Quaternion.identity);
-        newTowerObject.GetComponent<Tower>().TowerPlace = upgrade.TowerObj.GetComponent<Tower>().TowerPlace;
-        newTowerObject.GetComponent<Tower>().IsPlaced = true;
-        newTowerObject.GetComponent<Tower>().SetNormal();
+        Tower newTower = upgrade.TowerObj.NextLevelTower;
+        Tower newTowerObject = Instantiate(newTower, upgrade.TowerObj.transform.position, Quaternion.identity);
+        newTowerObject.TowerPlace = upgrade.TowerObj.TowerPlace;
+        newTowerObject.IsPlaced = true;
+        newTowerObject.SetNormal();
         upgrade.Money.CoinMinus(newTower.Cost);
         Destroy(upgrade.TowerObj.gameObject);
         Destroy(upgrade.gameObject);
@@ -231,8 +231,8 @@ public class BuildingTowers : MonoBehaviour
     /// </summary>
     public void RemoveBuilding(EditTower remove)
     {
-        remove.Money.CoinPlus(remove.TowerObj.GetComponent<Tower>().Cost / 2);
-        remove.TowerObj.GetComponent<Tower>().TowerPlace.occupied = false;
+        remove.Money.CoinPlus(remove.TowerObj.Cost / 2);
+        remove.TowerObj.TowerPlace.occupied = false;
         Destroy(remove.TowerObj.gameObject);
         Destroy(remove.gameObject);
     }
@@ -256,7 +256,7 @@ public class BuildingTowers : MonoBehaviour
     {
         if (_upgradeYet != null)
         {
-            _upgradeYet.GetComponent<EditTower>().TowerObj.transform.GetChild(2).gameObject.SetActive(false);
+            _upgradeYet.TowerObj.transform.GetChild(2).gameObject.SetActive(false);
             Destroy(_upgradeYet.gameObject);
             _upgradeYet = null;
         }

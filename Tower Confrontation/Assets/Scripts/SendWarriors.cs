@@ -5,27 +5,27 @@ using UnityEngine.UI;
 
 public class SendWarriors : MonoBehaviour
 {
-    [SerializeField] private Dictionary<string, GameObject> _activeWarriors = new Dictionary<string, GameObject>();
+    [SerializeField] private Dictionary<string, Enemy> _activeWarriors = new Dictionary<string, Enemy>();
     [SerializeField] private int _sendDelay;
     [SerializeField] private float _enemyInterval;
     [SerializeField] private float _startTime;
     [SerializeField] private Transform _spanwPoints;
     [SerializeField] private Transform _waypoints;
-    [SerializeField] private GameObject _hp;
-    [SerializeField] private GameObject _castleHp;
-    [SerializeField] private GameObject _money;
-    [SerializeField] private GameObject _exp;
+    [SerializeField] private EnemyHPScript _hp;
+    [SerializeField] private CastleHP _castleHp;
+    [SerializeField] private Money _money;
+    [SerializeField] private Experience _exp;
     [SerializeField] private GameObject _canvas;
 
     public int CountAllEnemy;
-    public List<GameObject> Enemies;
+    public List<Button> Enemies;
     public int CostArmy;
-    public Dictionary<string, GameObject> Warriors = new Dictionary<string, GameObject>();
+    public Dictionary<string, Enemy> Warriors = new Dictionary<string, Enemy>();
 
     private int _lastRandom = 0;
     private int _lastlastRandom = 0;
     private bool _check;
-    private GameObject _enemy;
+    private Enemy _enemy;
     private bool _sendCheck;
     private List<Transform> _allWaypoints = new List<Transform>();
 
@@ -45,13 +45,16 @@ public class SendWarriors : MonoBehaviour
 
     void Update()
     {
-        if (_money.GetComponent<Money>().Count < CostArmy || _sendCheck)
+        if (GetComponent<Button>() != null)
         {
-            GetComponent<Button>().interactable = false;
-        }
-        else
-        {
-            GetComponent<Button>().interactable = true;
+            if (_money.Count < CostArmy || _sendCheck)
+            {
+                GetComponent<Button>().interactable = false;
+            }
+            else
+            {
+                GetComponent<Button>().interactable = true;
+            }
         }
 
         if (_activeWarriors.Count == 0)
@@ -69,25 +72,28 @@ public class SendWarriors : MonoBehaviour
     /// </summary>
     public void SendTroops()
     {
-        foreach (KeyValuePair<string, GameObject> kvp in Warriors)
+        foreach (KeyValuePair<string, Enemy> kvp in Warriors)
         {
             _activeWarriors.Add(kvp.Key, kvp.Value);
         }
         Warriors.Clear();
-        _money.GetComponent<Money>().Count -= CostArmy;
         InvokeRepeating("SpawnEnemy", _startTime, _enemyInterval);
         _sendCheck = true;
         Invoke("sendTimer", _sendDelay);
-        foreach (var enemy in Enemies)
+        if (Enemies.Count > 0)
         {
-            enemy.GetComponent<HiringWarriors>().CountEnemy = 0;
+            _money.Count -= CostArmy;
+            foreach (var enemy in Enemies)
+            {
+                enemy.GetComponent<HiringWarriors>().CountEnemy = 0;
+            }
         }
         CountAllEnemy = 0;
         CostArmy = 0;
     }
 
     /// <summary>
-    ///  Цикловой спавн мобов на стороне противника.
+    ///  Цикличный спавн мобов на стороне противника.
     /// </summary>
     private void SpawnEnemy()
     {
@@ -96,14 +102,15 @@ public class SendWarriors : MonoBehaviour
             return;
         }
         string warriorRemoveKey = null;
-        foreach (KeyValuePair<string, GameObject> kvp in _activeWarriors)
+        foreach (KeyValuePair<string, Enemy> kvp in _activeWarriors)
         {
             warriorRemoveKey = kvp.Key;
             _enemy = kvp.Value;
             break;
         }
+        var name = warriorRemoveKey.Split();
         _activeWarriors.Remove(warriorRemoveKey);
-        GameObject enemy = null;
+        Enemy enemy = null;
         int rndCount = 0;
         bool _checkRandom = false;
         while (!_checkRandom)
@@ -152,16 +159,19 @@ public class SendWarriors : MonoBehaviour
                 enemy.GetComponent<MoveToWayPoints>().Waypoints = waypoints;
                 break;
         }
-        enemy.GetComponent<Enemy>().CastleHP = _castleHp;
-        enemy.GetComponent<Enemy>().Money = _money;
-        enemy.GetComponent<Enemy>().EXP = _exp;
-        enemy.GetComponent<Enemy>().IsEnemy = false;
-        GameObject hp = Instantiate(_hp, Vector3.zero, Quaternion.identity);
-        hp.GetComponent<EnemyHPScript>().EnemyObj = enemy;
-        hp.GetComponent<EnemyHPScript>().Offset = enemy.GetComponent<Enemy>().HpOffset;
+        enemy.CastleHP = _castleHp;
+        enemy.Money = _money;
+        enemy.EXP = _exp;
+        if (name[0] == "Enemy")
+            enemy.IsEnemy = true;
+        else
+            enemy.IsEnemy = false;
+        EnemyHPScript hp = Instantiate(_hp, Vector3.zero, Quaternion.identity);
+        hp.EnemyObj = enemy;
+        hp.Offset = enemy.HpOffset;
         hp.transform.SetParent(_canvas.transform);
         hp.transform.SetAsFirstSibling();
-        enemy.GetComponent<Enemy>().Hp = hp;
+        enemy.Hp = hp;
     }
 
     /// <summary>

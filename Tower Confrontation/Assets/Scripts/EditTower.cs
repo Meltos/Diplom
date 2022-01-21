@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class EditTower : MonoBehaviour
 {
-    public GameObject TowerObj;
+    public Tower TowerObj;
     public Vector3 Offset;
     public Money Money;
 
