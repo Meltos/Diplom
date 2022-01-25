@@ -5025,6 +5025,7 @@ MonoBehaviour:
   FireEffect: {fileID: 61703643906933593}
   FreezeEffect: {fileID: 6252381403619719922}
   IsEnemy: 0
+  Name: "\u0416\u0443\u043A"
 --- !u!65 &2640762406403455183
 BoxCollider:
   m_ObjectHideFlags: 0

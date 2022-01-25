@@ -36,8 +36,6 @@ public class OpenWarrior : MonoBehaviour
     /// </summary>
     public void SetNameWarriorLevels(PanelControl upgradePanelControl)
     {
-        var splitNameWarrior = HiringWarriors.Warrior.name.Split();
-        string nameWarrior = splitNameWarrior[0];
         int expCost = 0;
         for (int i = 1; i < 6; i++)
         {
@@ -53,7 +51,7 @@ public class OpenWarrior : MonoBehaviour
             }
             else
                 btnUpgrade.IsOpen = true;
-            btnUpgrade.transform.GetChild(0).GetComponent<Text>().text = nameWarrior;
+            btnUpgrade.transform.GetChild(0).GetComponent<Text>().text = HiringWarriors.Warrior.Name;
         }
     }
 

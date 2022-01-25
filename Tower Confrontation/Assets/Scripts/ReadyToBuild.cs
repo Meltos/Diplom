@@ -7,6 +7,7 @@ public class ReadyToBuild : MonoBehaviour
 {
     [SerializeField] private Tower _objectBuild;
     [SerializeField] private Money _currency;
+    [SerializeField] private Text _costTower;
 
     #region BODY
 
@@ -18,6 +19,7 @@ public class ReadyToBuild : MonoBehaviour
         {
             cost = _objectBuild.Cost;
             storage = _currency.Count;
+            _costTower.text = _objectBuild.Cost.ToString();
         }
         if (storage < cost)
         {

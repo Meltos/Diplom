@@ -28,6 +28,7 @@ public class Enemy : MonoBehaviour
     public GameObject FireEffect;
     public GameObject FreezeEffect;
     public bool IsEnemy;
+    public string Name;
 
     private bool _isDeath;
     private bool _isAttack;
@@ -64,6 +65,10 @@ public class Enemy : MonoBehaviour
             _thisAnimator.SetBool("isDead", true);
             StartCoroutine(Death());
         }
+        else if (_isDeath)
+        {
+            _thisAnimator.speed = _thisMoveToWayPoints.FirstLevelSpeed * _differenceSpeed;
+        }
         else
         {
             if (!_isBurn && IsFire && TimeFire > 0)
@@ -74,11 +79,12 @@ public class Enemy : MonoBehaviour
             {
                 StartCoroutine(Freeze());
             }
+
+            if (!_isAttack)
+                _thisAnimator.speed = _thisMoveToWayPoints.Speed * _differenceSpeed;
+            else
+                _thisAnimator.speed = _thisMoveToWayPoints.MaxSpeed * _differenceSpeed;
         }
-        if (!_isAttack)
-            _thisAnimator.speed = _thisMoveToWayPoints.Speed * _differenceSpeed;
-        else
-            _thisAnimator.speed = _thisMoveToWayPoints.MaxSpeed * _differenceSpeed;
     }
 
     IEnumerator Death()

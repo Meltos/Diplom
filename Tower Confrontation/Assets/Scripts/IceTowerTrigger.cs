@@ -6,7 +6,7 @@ public class IceTowerTrigger : MonoBehaviour
 {
     [SerializeField] private float _freezePower;
 
-    public List<GameObject> FreezesEnemy = new List<GameObject>();
+    public List<Enemy> FreezesEnemy = new List<Enemy>();
     public Tower Tower;
 
     private bool _isShoot;
@@ -15,37 +15,44 @@ public class IceTowerTrigger : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Enemy") && !other.GetComponent<Enemy>().IsFreeze
-            && !FreezesEnemy.Contains(other.gameObject) 
+        Enemy otherEnemy;
+        if (other.CompareTag("Enemy"))
+            otherEnemy = other.GetComponent<Enemy>();
+        else
+            return;
+
+        if (!otherEnemy.IsFreeze
+            && !FreezesEnemy.Contains(other.gameObject.GetComponent<Enemy>()) 
             && Tower.IsPlaced 
-            && other.gameObject.GetComponent<Enemy>().HP > 0
-            && !other.GetComponent<Enemy>().InvulnerabilityToTowers.Contains(Tower.Type))
+            && otherEnemy.HP > 0
+            && !otherEnemy.InvulnerabilityToTowers.Contains(Tower.Type))
         {
-            other.GetComponent<Enemy>().IsFreeze = true;
-            other.GetComponent<Enemy>().TimeFreeze = 2;
-            other.GetComponent<Enemy>().FreezePower = _freezePower;
-            other.GetComponent<Enemy>().IceTower = Tower;
-            FreezesEnemy.Add(other.gameObject);
+            otherEnemy.IsFreeze = true;
+            otherEnemy.TimeFreeze = 2;
+            otherEnemy.FreezePower = _freezePower;
+            otherEnemy.IceTower = Tower;
+            FreezesEnemy.Add(otherEnemy);
         }
-        else if (other.CompareTag("Enemy") && !FreezesEnemy.Contains(other.gameObject)
+        else if (!FreezesEnemy.Contains(otherEnemy)
             && Tower.IsPlaced
-            && other.gameObject.GetComponent<Enemy>().HP > 0
-            && !other.GetComponent<Enemy>().InvulnerabilityToTowers.Contains(Tower.Type))
+            && otherEnemy.HP > 0
+            && !otherEnemy.InvulnerabilityToTowers.Contains(Tower.Type))
         {
-            if (Tower.NextLevelTower == null && other.GetComponent<Enemy>().IceTower.NextLevelTower != null)
+            if (Tower.NextLevelTower == null && otherEnemy.IceTower.NextLevelTower != null)
             {
-                other.GetComponent<Enemy>().IceTower.gameObject.transform.GetChild(1).gameObject.GetComponent<IceTowerTrigger>().FreezesEnemy.Remove(other.gameObject);
-                other.GetComponent<Enemy>().IceTower = Tower;
-                FreezesEnemy.Add(other.gameObject);
+                if (otherEnemy.IceTower != null)
+                    otherEnemy.IceTower.transform.GetChild(1).GetComponent<IceTowerTrigger>().FreezesEnemy.Remove(otherEnemy);
+                otherEnemy.IceTower = Tower;
+                FreezesEnemy.Add(otherEnemy);
             }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Enemy") && Tower.IsPlaced && FreezesEnemy.Contains(other.gameObject))
+        if (other.CompareTag("Enemy") && Tower.IsPlaced && FreezesEnemy.Contains(other.GetComponent<Enemy>()))
         {
-            FreezesEnemy.Remove(other.gameObject);
+            FreezesEnemy.Remove(other.GetComponent<Enemy>());
         }
     }
 
@@ -68,15 +75,15 @@ public class IceTowerTrigger : MonoBehaviour
     {
         _isShoot = true;
         yield return new WaitForSeconds(Tower.ShootDelay);
-        List<GameObject> nullEnemies = new List<GameObject>();
+        List<Enemy> nullEnemies = new List<Enemy>();
         foreach (var freezeEnemy in FreezesEnemy)
         {
             if (freezeEnemy != null)
             {
-                freezeEnemy.GetComponent<Enemy>().IsFreeze = true;
-                freezeEnemy.GetComponent<Enemy>().TimeFreeze = 2;
-                if (Tower.NextLevelTower == null && freezeEnemy.GetComponent<Enemy>().HP > 0)
-                    freezeEnemy.GetComponent<Enemy>().Hp.GetComponent<EnemyHPScript>().Damage(Tower.Damage);
+                freezeEnemy.IsFreeze = true;
+                freezeEnemy.TimeFreeze = 2;
+                if (Tower.NextLevelTower == null && freezeEnemy.HP > 0)
+                    freezeEnemy.Hp.GetComponent<EnemyHPScript>().Damage(Tower.Damage);
             }
             else
             {

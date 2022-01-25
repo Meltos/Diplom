@@ -140,6 +140,7 @@ MonoBehaviour:
   FireEffect: {fileID: 7539288599860946236}
   FreezeEffect: {fileID: 5055764250613640945}
   IsEnemy: 0
+  Name: "\u041F\u0440\u0438\u0437\u0440\u0430\u043A"
 --- !u!65 &1440143243927586701
 BoxCollider:
   m_ObjectHideFlags: 0

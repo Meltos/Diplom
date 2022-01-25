@@ -16,6 +16,8 @@ public class SendWarriors : MonoBehaviour
     [SerializeField] private Money _money;
     [SerializeField] private Experience _exp;
     [SerializeField] private GameObject _canvas;
+    [SerializeField] private bool isBot;
+    [SerializeField] private Text _costArmyText;
 
     public int CountAllEnemy;
     public List<Button> Enemies;
@@ -28,6 +30,7 @@ public class SendWarriors : MonoBehaviour
     private Enemy _enemy;
     private bool _sendCheck;
     private List<Transform> _allWaypoints = new List<Transform>();
+    private Button _thisButton;
 
     #region MONO
 
@@ -37,6 +40,10 @@ public class SendWarriors : MonoBehaviour
         {
             _allWaypoints.Add(_waypoints.GetChild(i).transform);
         }
+        if (!isBot)
+            _thisButton = GetComponent<Button>();
+        _sendCheck = true;
+        Invoke("sendTimer", _sendDelay);
     }
 
     #endregion
@@ -45,16 +52,17 @@ public class SendWarriors : MonoBehaviour
 
     void Update()
     {
-        if (GetComponent<Button>() != null)
+        if (!isBot)
         {
             if (_money.Count < CostArmy || _sendCheck)
             {
-                GetComponent<Button>().interactable = false;
+                _thisButton.interactable = false;
             }
             else
             {
-                GetComponent<Button>().interactable = true;
+                _thisButton.interactable = true;
             }
+            _costArmyText.text = CostArmy.ToString();
         }
 
         if (_activeWarriors.Count == 0)

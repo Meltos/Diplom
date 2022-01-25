@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FireTowerTrigger : MonoBehaviour
 {
-    public List<GameObject> BurnedEnemies = new List<GameObject>();
+    public List<Enemy> BurnedEnemies = new List<Enemy>();
     public Tower Tower;
 
     private bool _isShoot = false;
@@ -13,23 +13,27 @@ public class FireTowerTrigger : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Enemy")
-            && Tower.IsPlaced
-            && !other.gameObject.GetComponent<Enemy>().IsFire
-            && other.gameObject.GetComponent<Enemy>().HP > 0
-            && !BurnedEnemies.Contains(other.gameObject)
-            && !other.GetComponent<Enemy>().InvulnerabilityToTowers.Contains(Tower.Type))
+        Enemy otherEnemy;
+        if (other.CompareTag("Enemy"))
+            otherEnemy = other.GetComponent<Enemy>();
+        else
+            return;
+        if (Tower.IsPlaced
+            && !otherEnemy.IsFire
+            && otherEnemy.HP > 0
+            && !BurnedEnemies.Contains(otherEnemy)
+            && !otherEnemy.InvulnerabilityToTowers.Contains(Tower.Type))
         {
-            other.gameObject.GetComponent<Enemy>().BurnDamage = Tower.Damage;
-            BurnedEnemies.Add(other.gameObject);
+            otherEnemy.BurnDamage = Tower.Damage;
+            BurnedEnemies.Add(otherEnemy);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Enemy") && Tower.IsPlaced && BurnedEnemies.Contains(other.gameObject))
+        if (other.CompareTag("Enemy") && Tower.IsPlaced && BurnedEnemies.Contains(other.GetComponent<Enemy>()))
         {
-            BurnedEnemies.Remove(other.gameObject);
+            BurnedEnemies.Remove(other.GetComponent<Enemy>());
         }
     }
 
@@ -53,13 +57,13 @@ public class FireTowerTrigger : MonoBehaviour
     {
         _isShoot = true;
         yield return new WaitForSeconds(Tower.ShootDelay);
-        List<GameObject> nullEnemies = new List<GameObject>();
+        List<Enemy> nullEnemies = new List<Enemy>();
         foreach(var burnedEnemy in BurnedEnemies)
         {
             if (burnedEnemy != null)
             {
-                burnedEnemy.GetComponent<Enemy>().IsFire = true;
-                burnedEnemy.GetComponent<Enemy>().TimeFire = 5;
+                burnedEnemy.IsFire = true;
+                burnedEnemy.TimeFire = 5;
             }
             else
             {

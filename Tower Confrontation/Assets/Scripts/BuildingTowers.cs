@@ -121,7 +121,8 @@ public class BuildingTowers : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.collider.tag == "Tower" && !hit.collider.GetComponent<Tower>().IsBot && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+                if (hit.collider.tag == "Tower" && !hit.collider.GetComponent<Tower>().IsBot 
+                    && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
                 {
                     if (_upgradeYet != null)
                     {
@@ -174,14 +175,19 @@ public class BuildingTowers : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.collider.tag == "Tower" && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() 
-                    && hit.collider.gameObject.GetComponent<Tower>().NextLevelTower.Cost <= _money.Count 
-                    && hit.collider.gameObject.GetComponent<Tower>().NextLevelTower != null
-                    && !hit.collider.GetComponent<Tower>().IsBot)
+                Tower hitTower;
+                if (hit.collider.tag == "Tower")
+                    hitTower = hit.collider.GetComponent<Tower>();
+                else
+                    return;
+                if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()
+                    && hitTower.NextLevelTower != null
+                    && hitTower.NextLevelTower.Cost <= _money.Count 
+                    && !hitTower.IsBot)
                 {
                     EditTower upgrade = Instantiate(_editTower, Vector3.zero, Quaternion.identity);
-                    upgrade.TowerObj = hit.collider.gameObject.GetComponent<Tower>();
-                    upgrade.Offset = hit.collider.gameObject.GetComponent<Tower>().Offset;
+                    upgrade.TowerObj = hitTower;
+                    upgrade.Offset = hitTower.Offset;
                     upgrade.Money = _money;
                     upgrade.transform.SetParent(_canvas.transform);
                     upgrade.TowerObj.transform.GetChild(2).gameObject.SetActive(true);
@@ -207,7 +213,7 @@ public class BuildingTowers : MonoBehaviour
         _flyingBuilding = Instantiate(buildingPrefab);
         _flyingBuilding.GetComponent<Collider>().isTrigger = true;
         _flyingBuilding.transform.GetChild(1).gameObject.SetActive(false);
-        _flyingBuilding.gameObject.transform.GetChild(2).gameObject.SetActive(true);
+        _flyingBuilding.transform.GetChild(2).gameObject.SetActive(true);
         _flyingBuilding.transform.localScale = new Vector3(_flyingBuilding.transform.localScale.x + 0.0001f, _flyingBuilding.transform.localScale.y + 0.0001f, _flyingBuilding.transform.localScale.z + 0.0001f);
     }
 

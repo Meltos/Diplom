@@ -23,7 +23,7 @@ public class TowerTrigger : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Enemy") && other.gameObject == _curTarget)
+        if (other.CompareTag("Enemy") && other.gameObject.GetComponent<Enemy>() == _curTarget)
         {
             _enemylock = false;
             _tower.target = null;

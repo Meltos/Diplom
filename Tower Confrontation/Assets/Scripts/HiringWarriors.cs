@@ -10,11 +10,14 @@ public class HiringWarriors : MonoBehaviour, IPointerClickHandler
     [SerializeField] private Experience _exp;
     [SerializeField] private Color _colorEXP;
     [SerializeField] private Color _colorText;
+    [SerializeField] private Text _costEnemy;
 
     public bool IsOpen;
     public int CountEnemy;
     public Text CountEnemeyText;
     public Enemy Warrior;
+
+    private Button _thisButton;
 
     #region MONO
 
@@ -25,6 +28,7 @@ public class HiringWarriors : MonoBehaviour, IPointerClickHandler
             CountEnemeyText.color = _colorEXP;
         }
         CountEnemeyText.text = Warrior.EXPCost.ToString();
+        _thisButton = GetComponent<Button>();
     }
 
     #endregion
@@ -34,11 +38,18 @@ public class HiringWarriors : MonoBehaviour, IPointerClickHandler
     void Update()
     {
         if (IsOpen)
+        {
             CountEnemeyText.text = CountEnemy.ToString();
-        if (_exp.Count < Warrior.EXPCost)
-            GetComponent<Button>().interactable = false;
+            _thisButton.interactable = true;
+            _costEnemy.text = Warrior.Cost.ToString();
+        }
         else
-            GetComponent<Button>().interactable = true;
+        {
+            if (_exp.Count < Warrior.EXPCost)
+                _thisButton.interactable = false;
+            else
+                _thisButton.interactable = true;
+        }
     }
 
     #endregion
@@ -59,7 +70,8 @@ public class HiringWarriors : MonoBehaviour, IPointerClickHandler
         else if (IsOpen)
         {
             //Use this to tell when the user left-clicks on the Button
-            if (pointerEventData.button == PointerEventData.InputButton.Left && Input.GetKey(KeyCode.LeftShift) && _sendWarriors.CountAllEnemy < 12)
+            if (pointerEventData.button == PointerEventData.InputButton.Left && Input.GetKey(KeyCode.LeftShift)
+                && _sendWarriors.CountAllEnemy < 12 && _thisButton.IsInteractable())
             {
                 for (int i = 0; i < 12 - _sendWarriors.CountAllEnemy; i++)
                 {
@@ -70,7 +82,8 @@ public class HiringWarriors : MonoBehaviour, IPointerClickHandler
                 _sendWarriors.CountAllEnemy = 12;
             }
             //Use this to tell when the user right-clicks on the Button
-            else if (pointerEventData.button == PointerEventData.InputButton.Right && Input.GetKey(KeyCode.LeftShift) && CountEnemy > 0)
+            else if (pointerEventData.button == PointerEventData.InputButton.Right 
+                && Input.GetKey(KeyCode.LeftShift) && CountEnemy > 0 && _thisButton.IsInteractable())
             {
                 int pasteCountEnemy = CountEnemy;
                 for (int i = 0; i < pasteCountEnemy; i++)
@@ -81,14 +94,16 @@ public class HiringWarriors : MonoBehaviour, IPointerClickHandler
                 }
                 _sendWarriors.CountAllEnemy -= pasteCountEnemy;
             }
-            else if (pointerEventData.button == PointerEventData.InputButton.Left && _sendWarriors.CountAllEnemy < 12)
+            else if (pointerEventData.button == PointerEventData.InputButton.Left 
+                && _sendWarriors.CountAllEnemy < 12 && _thisButton.IsInteractable())
             {
                 CountEnemy++;
                 _sendWarriors.CostArmy += Warrior.Cost;
                 _sendWarriors.Warriors.Add(Warrior.name + CountEnemy, Warrior);
                 _sendWarriors.CountAllEnemy++;
             }
-            else if (pointerEventData.button == PointerEventData.InputButton.Right && CountEnemy > 0)
+            else if (pointerEventData.button == PointerEventData.InputButton.Right 
+                && CountEnemy > 0 && _thisButton.IsInteractable())
             {
                 _sendWarriors.Warriors.Remove(Warrior.name + CountEnemy);
                 CountEnemy--;

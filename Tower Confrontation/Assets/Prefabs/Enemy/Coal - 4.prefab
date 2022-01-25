@@ -69,7 +69,7 @@ MonoBehaviour:
   HP: 412
   MaxHP: 412
   Cost: 173
-  EXPCost: 600
+  EXPCost: 804
   EXPReward: 50
   Hp: {fileID: 0}
   CastleHP: {fileID: 0}
@@ -87,6 +87,7 @@ MonoBehaviour:
   FireEffect: {fileID: 0}
   FreezeEffect: {fileID: 6105698831989757145}
   IsEnemy: 0
+  Name: "\u0423\u0433\u043E\u043B\u0451\u043A"
 --- !u!65 &2140475033219483832
 BoxCollider:
   m_ObjectHideFlags: 0

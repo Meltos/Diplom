@@ -19,18 +19,45 @@ public class Mine : MonoBehaviour
     [SerializeField] private int _tickMoneySix;
     [SerializeField] private Experience _exp;
     [SerializeField] private Money _money;
+    [SerializeField] private Text _costText;
+    [SerializeField] private Text _text;
+    [SerializeField] private Color _fullLevelColor;
+
+    private Button _thisButton;
+    private bool _isFullLevel;
+
+    #region MONO
+
+    private void Awake()
+    {
+        _thisButton = GetComponent<Button>();
+    }
+
+    #endregion
 
     #region BODY
 
     void Update()
     {
-        if (_level == 6 || _exp.Count < GetUpgradeMineCost())
+        if (_level == 6 && !_isFullLevel)
         {
-            GetComponent<Button>().interactable = false;
+            GetComponent<Image>().color = _fullLevelColor;
+            _thisButton.interactable = false;
+            _text.color = Color.black;
+            _costText.text = "";
+            _isFullLevel = true;
         }
-        else
+        else if (!_isFullLevel)
         {
-            GetComponent<Button>().interactable = true;
+            if (_exp.Count < GetUpgradeMineCost())
+            {
+                _thisButton.interactable = false;
+            }
+            else
+            {
+                _thisButton.interactable = true;
+            }
+            _costText.text = GetUpgradeMineCost().ToString();
         }
     }
 
