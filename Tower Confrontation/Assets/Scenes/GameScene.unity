@@ -3079,7 +3079,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b80cbbfb137e2e439b347ee1b7f0449, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _level: 1
   _levelTwoCost: 125
   _levelThreeCost: 250
   _levelFourCost: 1000
@@ -7349,6 +7348,85 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2119840866}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &244806014
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 244806017}
+  - component: {fileID: 244806016}
+  - component: {fileID: 244806015}
+  m_Layer: 5
+  m_Name: Timer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &244806015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244806014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 36
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 2
+    m_MaxSize: 245
+    m_Alignment: 5
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 14
+--- !u!222 &244806016
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244806014}
+  m_CullTransparentMesh: 1
+--- !u!224 &244806017
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244806014}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1418951078}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: -5.2199, y: 100.99}
+  m_SizeDelta: {x: 135.4382, y: 48.2845}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &245980174
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8973,7 +9051,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objectBuild: {fileID: 2019042152779978, guid: bf9a6e6805cbfa2499cb2c4ed9a301b7,
     type: 3}
-  _currency: {fileID: 301506222}
+  _money: {fileID: 301506222}
   _costTower: {fileID: 1787901217}
 --- !u!114 &285527333
 MonoBehaviour:
@@ -9772,7 +9850,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mine: {fileID: 114247055}
-  Count: 500
+  Count: 5000000
 --- !u!4 &303986773 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1829506207328013522, guid: cd34dd37f0950044f9848836cca24ca9,
@@ -12294,7 +12372,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objectBuild: {fileID: 7348859427922089228, guid: 0e7682dff3a838f44b73e970df032737,
     type: 3}
-  _currency: {fileID: 301506222}
+  _money: {fileID: 301506222}
   _costTower: {fileID: 2132570151}
 --- !u!114 &377065688
 MonoBehaviour:
@@ -29062,7 +29140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89822a6cf1eed954b8b12e653d46297a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Count: 0
+  Count: 50000
 --- !u!114 &1002499143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32722,7 +32800,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objectBuild: {fileID: 4475539528599150429, guid: 82479e06d45b23846a2d1c1662d6022b,
     type: 3}
-  _currency: {fileID: 301506222}
+  _money: {fileID: 301506222}
   _costTower: {fileID: 419537548}
 --- !u!114 &1147407997
 MonoBehaviour:
@@ -35035,7 +35113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objectBuild: {fileID: 6372225188890811856, guid: dec19b78c70b2a24c85b565c5fb29c07,
     type: 3}
-  _currency: {fileID: 301506222}
+  _money: {fileID: 301506222}
   _costTower: {fileID: 685064074}
 --- !u!1001 &1213588126
 PrefabInstance:
@@ -40663,6 +40741,7 @@ RectTransform:
   m_Children:
   - {fileID: 1423472297}
   - {fileID: 672486725}
+  - {fileID: 244806017}
   m_Father: {fileID: 959292942}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -40695,6 +40774,7 @@ MonoBehaviour:
   _canvas: {fileID: 1548381242}
   isBot: 0
   _costArmyText: {fileID: 672486723}
+  _timeToSendAgainText: {fileID: 244806015}
   CountAllEnemy: 0
   Enemies:
   - {fileID: 1378850516}

@@ -9,7 +9,7 @@ public class BulletTower : MonoBehaviour
     public Transform Target;
     public Tower Tower;
 
-    private Vector3 _oldTarget;
+    private Vector3 _newTarget;
 
     #region BODY
 
@@ -19,11 +19,11 @@ public class BulletTower : MonoBehaviour
         {
             transform.LookAt(Target);
             transform.position = Vector3.MoveTowards(transform.position, Target.position, Time.deltaTime * _speed);
-            _oldTarget = new Vector3(Target.position.x, 0, Target.position.z);
+            _newTarget = new Vector3(Target.position.x, 0, Target.position.z);
         }
         else
         {
-            transform.position = Vector3.MoveTowards(transform.position, _oldTarget, Time.deltaTime * _speed);
+            transform.position = Vector3.MoveTowards(transform.position, _newTarget, Time.deltaTime * _speed);
         }
     }
 

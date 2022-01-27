@@ -22,6 +22,11 @@ public class BuildingTowers : MonoBehaviour
     void Awake()
     {
         _mainCamera = Camera.main;
+        foreach (var panel in _panels)
+        {
+            panel.SetActive(true);
+            panel.SetActive(false);
+        }
         Time.timeScale = 1;
     }
 

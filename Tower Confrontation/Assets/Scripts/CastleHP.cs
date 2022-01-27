@@ -12,11 +12,22 @@ public class CastleHP : MonoBehaviour
     public float HP;
     public float MaxHP;
 
+    private Text _countHPText;
+
+    #region MONO
+
+    private void Awake()
+    {
+        _countHPText = GetComponent<Text>();
+    }
+
+    #endregion
+
     #region BODY
 
     void Update()
     {
-        GetComponent<Text>().text = HP.ToString();
+        _countHPText.text = HP.ToString();
 
         if (_isBot && HP <= 0)
         {

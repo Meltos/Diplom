@@ -15,6 +15,17 @@ public class UpgradeWarriors : MonoBehaviour
     public int EXPCost;
     public Enemy Warrior;
 
+    private Button _thisButton;
+
+    #region MONO
+
+    private void Awake()
+    {
+        _thisButton = GetComponent<Button>();
+    }
+
+    #endregion
+
     #region BODY
 
     void Update()
@@ -23,14 +34,14 @@ public class UpgradeWarriors : MonoBehaviour
         {
             _expCostText.text = EXPCost.ToString();
             if (_exp.Count < EXPCost)
-                GetComponent<Button>().interactable = false;
+                _thisButton.interactable = false;
             else
-                GetComponent<Button>().interactable = true;
+                _thisButton.interactable = true;
         }
         else
         {
             _expCostText.text = "";
-            GetComponent<Button>().interactable = false;
+            _thisButton.interactable = false;
         }
     }
 

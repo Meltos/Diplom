@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class Mine : MonoBehaviour
 {
-    [SerializeField] private int _level;
     [SerializeField] private int _levelTwoCost;
     [SerializeField] private int _levelThreeCost;
     [SerializeField] private int _levelFourCost;
@@ -25,6 +24,7 @@ public class Mine : MonoBehaviour
 
     private Button _thisButton;
     private bool _isFullLevel;
+    private int _level = 1;
 
     #region MONO
 

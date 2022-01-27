@@ -241,7 +241,6 @@ MonoBehaviour:
   _freezePower: 0.3
   FreezesEnemy: []
   Tower: {fileID: 4769244900763059593}
-  IsDestroy: 0
 --- !u!136 &8579789997346384938
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -347,6 +346,8 @@ MonoBehaviour:
   TowerPlace: {fileID: 0}
   Offset: {x: 0, y: 1, z: 0}
   Type: 1
+  IsBot: 0
+  Level: 2
 --- !u!65 &932404895302885971
 BoxCollider:
   m_ObjectHideFlags: 0

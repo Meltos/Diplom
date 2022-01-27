@@ -91,6 +91,8 @@ MonoBehaviour:
   TowerPlace: {fileID: 0}
   Offset: {x: 0, y: 1, z: 0}
   Type: 1
+  IsBot: 0
+  Level: 3
 --- !u!65 &8520591897652523413
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -151,7 +153,6 @@ MonoBehaviour:
   _freezePower: 0.3
   FreezesEnemy: []
   Tower: {fileID: 4098392860903609935}
-  IsDestroy: 0
 --- !u!136 &925342013771490292
 CapsuleCollider:
   m_ObjectHideFlags: 0

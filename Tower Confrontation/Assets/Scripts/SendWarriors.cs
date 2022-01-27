@@ -18,6 +18,7 @@ public class SendWarriors : MonoBehaviour
     [SerializeField] private GameObject _canvas;
     [SerializeField] private bool isBot;
     [SerializeField] private Text _costArmyText;
+    [SerializeField] private Text _timeToSendAgainText;
 
     public int CountAllEnemy;
     public List<Button> Enemies;
@@ -26,11 +27,11 @@ public class SendWarriors : MonoBehaviour
 
     private int _lastRandom = 0;
     private int _lastlastRandom = 0;
-    private bool _check;
+    private bool _checkMismatch;
     private Enemy _enemy;
-    private bool _sendCheck;
     private List<Transform> _allWaypoints = new List<Transform>();
     private Button _thisButton;
+    private int _fullSendDelay;
 
     #region MONO
 
@@ -41,9 +42,13 @@ public class SendWarriors : MonoBehaviour
             _allWaypoints.Add(_waypoints.GetChild(i).transform);
         }
         if (!isBot)
+        {
             _thisButton = GetComponent<Button>();
-        _sendCheck = true;
-        Invoke("sendTimer", _sendDelay);
+            _fullSendDelay = _sendDelay;
+            _timeToSendAgainText.text = _sendDelay.ToString();
+            _sendCheck = true;
+            InvokeRepeating("SendTimer", 0, 1f);
+        }
     }
 
     #endregion
@@ -54,7 +59,7 @@ public class SendWarriors : MonoBehaviour
     {
         if (!isBot)
         {
-            if (_money.Count < CostArmy || _sendCheck)
+            if (_money.Count < CostArmy || _sendDelay !)
             {
                 _thisButton.interactable = false;
             }
@@ -86,8 +91,11 @@ public class SendWarriors : MonoBehaviour
         }
         Warriors.Clear();
         InvokeRepeating("SpawnEnemy", _startTime, _enemyInterval);
-        _sendCheck = true;
-        Invoke("sendTimer", _sendDelay);
+        if (!isBot)
+        {
+            _timeToSendAgainText.text = _sendDelay.ToString();
+            InvokeRepeating("SendTimer", 0, 1f);
+        }
         if (Enemies.Count > 0)
         {
             _money.Count -= CostArmy;
@@ -120,23 +128,23 @@ public class SendWarriors : MonoBehaviour
         _activeWarriors.Remove(warriorRemoveKey);
         Enemy enemy = null;
         int rndCount = 0;
-        bool _checkRandom = false;
-        while (!_checkRandom)
+        bool _checkCycle = false;
+        while (!_checkCycle)
         {
             rndCount = Random.Range(1, 4);
-            if (rndCount != _lastRandom && rndCount != _lastlastRandom && !_check)
+            if (rndCount != _lastRandom && rndCount != _lastlastRandom && !_checkMismatch)
             {
                 _lastRandom = rndCount;
                 _lastlastRandom = 0;
-                _checkRandom = true;
-                _check = true;
+                _checkCycle = true;
+                _checkMismatch = true;
             }
-            else if (rndCount != _lastRandom && rndCount != _lastlastRandom && _check)
+            else if (rndCount != _lastRandom && rndCount != _lastlastRandom && _checkMismatch)
             {
                 _lastlastRandom = _lastRandom;
                 _lastRandom = rndCount;
-                _check = false;
-                _checkRandom = true;
+                _checkMismatch = false;
+                _checkCycle = true;
             }
         }
         List<Transform> waypoints = new List<Transform>();
@@ -185,9 +193,15 @@ public class SendWarriors : MonoBehaviour
     /// <summary>
     ///  Отсчёт интервала между отправками мобов.
     /// </summary>
-    private void sendTimer()
+    private void SendTimer()
     {
-        _sendCheck = false;
+        _sendDelay--;
+        _timeToSendAgainText.text = _sendDelay.ToString();
+        if (_sendDelay == 0)
+        {
+            _sendDelay = _fullSendDelay;
+            CancelInvoke("SendTimer");
+        }
     }
 
     #endregion

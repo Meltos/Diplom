@@ -7,11 +7,18 @@ public class Experience : MonoBehaviour
 {
     public int Count;
 
+    private Text _countText;
+
+    private void Awake()
+    {
+        _countText = GetComponent<Text>();
+    }
+
     #region BODY
 
     void Update()
     {
-        GetComponent<Text>().text = Count.ToString();
+        _countText.text = Count.ToString();
     }
 
     #endregion

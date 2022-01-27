@@ -18,6 +18,7 @@ public class Tower : MonoBehaviour
     public Vector3 Offset;
     public TowerType Type;
     public bool IsBot;
+    public int Level;
 
     private bool _isShoot;
 

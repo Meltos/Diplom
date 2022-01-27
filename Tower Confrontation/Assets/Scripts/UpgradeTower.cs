@@ -7,6 +7,7 @@ public class UpgradeTower : MonoBehaviour
 {
     [SerializeField] private EditTower _parent;
     [SerializeField] private Text _cost;
+    [SerializeField] private Transform _remove;
 
     private Button _thisButton;
     private bool _fullLevel;
@@ -27,8 +28,7 @@ public class UpgradeTower : MonoBehaviour
         if (_parent.TowerObj.NextLevelTower == null && !_fullLevel)
         {
             gameObject.SetActive(false);
-            Transform remove = _parent.transform.GetChild(1).transform;
-            remove.localPosition = new Vector3(7.629395e-06f, remove.localPosition.y, remove.localPosition.z);
+            _remove.localPosition = new Vector3(7.629395e-06f, _remove.localPosition.y, _remove.localPosition.z);
             _fullLevel = true;
         }
         else if (!_fullLevel)

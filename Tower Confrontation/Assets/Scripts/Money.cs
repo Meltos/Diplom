@@ -11,11 +11,13 @@ public class Money : MonoBehaviour
 
     private bool _isTick;
     private int _coinInTick;
+    private Text _countText;
 
     #region MONO
 
     public void Awake()
     {
+        _countText = GetComponent<Text>();
         SetTickMoney();
     }
 
@@ -25,7 +27,7 @@ public class Money : MonoBehaviour
 
     void Update()
     {
-        GetComponent<Text>().text = Count.ToString();
+        _countText.text = Count.ToString();
         if (!_isTick)
         {
             StartCoroutine(tick());

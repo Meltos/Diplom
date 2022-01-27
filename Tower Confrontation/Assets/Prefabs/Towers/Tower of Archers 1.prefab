@@ -267,7 +267,6 @@ MonoBehaviour:
   _mainRenderer: {fileID: 6805581018820740518}
   _shootElement: {fileID: 4937628480305964174}
   bullet: {fileID: 4101400511568202951, guid: 8234aef583600734d8749213644dc061, type: 3}
-  Type: Air
   Damage: 5
   Cost: 160
   target: {fileID: 0}
@@ -276,7 +275,10 @@ MonoBehaviour:
   NextLevelTower: {fileID: 5114759060499401188, guid: 9c68b5f35510ab943a7f444a01ae8bbc,
     type: 3}
   TowerPlace: {fileID: 0}
-  Offset: {x: 0, y: 1.3, z: 0}
+  Offset: {x: 0, y: 1.1, z: 0}
+  Type: 0
+  IsBot: 0
+  Level: 1
 --- !u!65 &8773710885049788510
 BoxCollider:
   m_ObjectHideFlags: 0

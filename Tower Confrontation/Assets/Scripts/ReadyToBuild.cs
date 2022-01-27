@@ -6,28 +6,32 @@ using UnityEngine.UI;
 public class ReadyToBuild : MonoBehaviour
 {
     [SerializeField] private Tower _objectBuild;
-    [SerializeField] private Money _currency;
+    [SerializeField] private Money _money;
     [SerializeField] private Text _costTower;
+
+    private Button _thisButton;
+
+    #region MONO
+
+    private void Awake()
+    {
+        _thisButton = GetComponent<Button>();
+    }
+
+    #endregion
 
     #region BODY
 
     void Update()
     {
-        int cost = 0;
-        int storage = 0;
-        if (_objectBuild != null && _currency != null)
+        _costTower.text = _objectBuild.Cost.ToString();
+        if (_money.Count < _objectBuild.Cost)
         {
-            cost = _objectBuild.Cost;
-            storage = _currency.Count;
-            _costTower.text = _objectBuild.Cost.ToString();
-        }
-        if (storage < cost)
-        {
-            GetComponent<Button>().interactable = false;
+            _thisButton.interactable = false;
         }
         else
         {
-            GetComponent<Button>().interactable = true;
+            _thisButton.interactable = true;
         }
     }
 
