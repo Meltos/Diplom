@@ -46,7 +46,6 @@ public class SendWarriors : MonoBehaviour
             _thisButton = GetComponent<Button>();
             _fullSendDelay = _sendDelay;
             _timeToSendAgainText.text = _sendDelay.ToString();
-            _sendCheck = true;
             InvokeRepeating("SendTimer", 0, 1f);
         }
     }
@@ -59,7 +58,7 @@ public class SendWarriors : MonoBehaviour
     {
         if (!isBot)
         {
-            if (_money.Count < CostArmy || _sendDelay !)
+            if (_money.Count < CostArmy || _sendDelay != 14)
             {
                 _thisButton.interactable = false;
             }

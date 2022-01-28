@@ -55,6 +55,8 @@ public class EnemySendWarriors : MonoBehaviour
     private int _countWaves;
     private bool _isWaveGo;
     private SendWarriors _thisSendWarriors;
+    private float _timerRandomWave = 20;
+    private int _countWavesToArmagedon;
 
     void Awake()
     {
@@ -96,7 +98,10 @@ public class EnemySendWarriors : MonoBehaviour
     IEnumerator RandomWaveGo()
     {
         _isWaveGo = true;
-        yield return new WaitForSeconds(20f);
+        yield return new WaitForSeconds(_timerRandomWave);
+        _countWavesToArmagedon++;
+        if (_countWavesToArmagedon == 5)
+            _timerRandomWave = 6f;
         Dictionary<string, Enemy> waveWarriors = new Dictionary<string, Enemy>();
         for (int i = 0; i < 12; i++)
         {

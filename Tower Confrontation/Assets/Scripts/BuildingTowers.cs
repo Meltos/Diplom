@@ -103,7 +103,6 @@ public class BuildingTowers : MonoBehaviour
                         }
                         if (Input.GetMouseButtonDown(0) && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() && !place.occupied)
                         {
-                            _lastTower = _flyingBuilding;
                             _money.CoinMinus(_flyingBuilding.Cost);
                             place.occupied = true;
                             place.Tower = _flyingBuilding;
@@ -216,6 +215,7 @@ public class BuildingTowers : MonoBehaviour
             Destroy(_flyingBuilding.gameObject);
         }
         _flyingBuilding = Instantiate(buildingPrefab);
+        _lastTower = buildingPrefab;
         _flyingBuilding.GetComponent<Collider>().isTrigger = true;
         _flyingBuilding.transform.GetChild(1).gameObject.SetActive(false);
         _flyingBuilding.transform.GetChild(2).gameObject.SetActive(true);
@@ -257,6 +257,7 @@ public class BuildingTowers : MonoBehaviour
         {
             Destroy(_flyingBuilding.gameObject);
             _flyingBuilding = null;
+            _lastTower = null;
         }
     }
 

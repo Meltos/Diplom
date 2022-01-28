@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class EditTower : MonoBehaviour
 {
+    [SerializeField] private Text _removeCoinPlusText;
+
     public Tower TowerObj;
     public Vector3 Offset;
     public Money Money;
@@ -12,6 +14,7 @@ public class EditTower : MonoBehaviour
 
     private RectTransform _thisRectTransform;
     private Camera _mainCamera;
+    private bool _monoUpdate;
 
     #region MONO
 
@@ -34,7 +37,12 @@ public class EditTower : MonoBehaviour
         else
         {
             _thisRectTransform.position = _mainCamera.WorldToScreenPoint(TowerObj.transform.position + Offset);
+        }
+        if (!_monoUpdate)
+        {
             LevelTowerText.text = TowerObj.Level.ToString();
+            _removeCoinPlusText.text = "+" + (TowerObj.Cost / 2).ToString();
+            _monoUpdate = true;
         }
     }
 
